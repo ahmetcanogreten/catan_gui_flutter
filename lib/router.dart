@@ -1,13 +1,16 @@
-import 'package:catan_gui_flutter/auth/presentation/pages/register_page.dart';
+import 'package:catan_gui_flutter/auth/presentation/pages/authentication_page.dart';
 import 'package:go_router/go_router.dart';
+
+// Routes
+const authenticationRoute = '/authentication';
 
 // GoRouter configuration
 final routerConfig = GoRouter(
-  initialLocation: '/register',
+  initialLocation: authenticationRoute,
   routes: [
     GoRoute(
-      path: '/register',
-      builder: (context, state) => const RegisterPage(),
+      path: authenticationRoute,
+      builder: (context, state) => const AuthenticationPage(),
     ),
   ],
 );

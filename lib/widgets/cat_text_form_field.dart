@@ -2,38 +2,24 @@ import 'package:flutter/material.dart';
 
 class CATTextFormField extends StatefulWidget {
   final TextEditingController? controller;
-  final Function(String)? onChanged;
-  final Function()? onTap;
   final String? labelText;
   final String? hintText;
-  final double? borderRadius;
-  final TextInputType? keyboardType;
-  final TextInputAction? textInputAction;
   final String? Function(String?)? validator;
-  final FocusNode? focusNode;
-  final void Function(String)? onFieldSubmitted;
   final bool obscureText;
   final Widget? suffixIcon;
+  final void Function()? onChanged;
 
-  final Color selectedColor;
-  final Color notSelectedColor;
+  final Color color;
   const CATTextFormField({
     super.key,
     this.controller,
-    this.onChanged,
     this.labelText,
-    this.onTap,
-    this.borderRadius,
     this.hintText,
-    this.keyboardType,
     this.validator,
-    this.textInputAction,
-    this.focusNode,
-    this.onFieldSubmitted,
     this.obscureText = false,
+    this.color = Colors.white,
     this.suffixIcon,
-    this.notSelectedColor = Colors.white,
-    this.selectedColor = Colors.orange,
+    this.onChanged,
   });
 
   @override
@@ -41,104 +27,66 @@ class CATTextFormField extends StatefulWidget {
 }
 
 class _CATTextFormFieldState extends State<CATTextFormField> {
-  late FocusNode _focusNode;
+  final FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    _focusNode = widget.focusNode ?? FocusNode();
-
     _focusNode.addListener(() {
       setState(() {});
     });
-  }
-
-  TextStyle labelStyleAccordingToValidator(
-      {required Color secondaryColor, required Color primaryColor}) {
-    if (widget.validator == null) {
-      return TextStyle(
-        color: _focusNode.hasFocus ? secondaryColor : primaryColor,
-      );
-    }
-
-    if (widget.controller!.text.isEmpty) {
-      return TextStyle(
-        color: _focusNode.hasFocus ? secondaryColor : primaryColor,
-      );
-    }
-
-    if (widget.validator!(widget.controller!.text) != null) {
-      return const TextStyle(color: Colors.red);
-    }
-
-    return const TextStyle(color: Colors.green);
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
-      textInputAction: widget.textInputAction,
-      onTap: widget.onTap,
-      onFieldSubmitted: widget.onFieldSubmitted,
       controller: widget.controller,
       obscuringCharacter: '•',
       obscureText: widget.obscureText,
       onChanged: (value) {
         setState(() {});
-        if (widget.onChanged != null) widget.onChanged!(value);
+        if (widget.onChanged != null) widget.onChanged!();
       },
-      cursorColor: widget.notSelectedColor,
-      keyboardType: widget.keyboardType,
+      cursorColor: widget.color,
       validator: widget.validator,
-      style: TextStyle(
-          color: _focusNode.hasFocus
-              ? widget.selectedColor
-              : widget.notSelectedColor),
+      style: TextStyle(color: widget.color),
       decoration: InputDecoration(
+        suffixIcon: widget.suffixIcon,
         hintText: widget.hintText ?? '',
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         label: widget.labelText != null
-            ? Text(widget.labelText!,
-                style: labelStyleAccordingToValidator(
-                    secondaryColor: widget.selectedColor,
-                    primaryColor: widget.notSelectedColor))
+            ? Text(widget.labelText!, style: TextStyle(color: widget.color))
             : null,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: widget.validator != null &&
-                    widget.validator!(widget.controller?.text) == null
-                ? Colors.green
-                : widget.notSelectedColor,
+            color: widget.color,
             width: 2,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: widget.validator != null &&
-                    widget.validator!(widget.controller?.text) == null
-                ? Colors.green
-                : widget.selectedColor,
+            color: widget.color,
             width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
-          borderSide: const BorderSide(
-            color: Colors.red,
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: widget.color,
             width: 2,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
-          borderSide: const BorderSide(
-            color: Colors.red,
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: widget.color,
             width: 2,
           ),
         ),
-        suffixIcon: widget.suffixIcon,
+        errorStyle: const TextStyle(color: Colors.orange),
       ),
     );
   }

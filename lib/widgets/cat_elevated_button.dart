@@ -29,6 +29,8 @@ class CATElevatedButton extends StatelessWidget {
           padding: EdgeInsets.zero,
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
+          disabledBackgroundColor: backgroundColor?.withOpacity(0.5),
+          disabledForegroundColor: foregroundColor?.withOpacity(0.5),
           shape: RoundedRectangleBorder(
             side: borderColor != null
                 ? BorderSide(color: borderColor!)

@@ -1,8 +1,10 @@
+import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
 import 'package:catan_gui_flutter/utils/validators.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_text_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterDrawer extends StatefulWidget {
   final Function() onToLoginPressed;
@@ -13,7 +15,8 @@ class RegisterDrawer extends StatefulWidget {
 }
 
 class _RegisterDrawerState extends State<RegisterDrawer> {
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -21,7 +24,8 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -68,11 +72,21 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                 SizedBox(height: maxSize * 0.1),
                 CATTextFormField(
                   onChanged: () => setState(() {}),
-                  controller: _nameController,
+                  controller: _firstNameController,
                   validator: (value) => isValidName(value ?? '')
                       ? null
-                      : 'Name must be at least 3 characters long',
-                  labelText: 'Name',
+                      : 'First name must be at least 3 characters long',
+                  labelText: 'First Name',
+                  color: Colors.orange.shade100,
+                ),
+                SizedBox(height: maxSize * 0.05),
+                CATTextFormField(
+                  onChanged: () => setState(() {}),
+                  controller: _lastNameController,
+                  validator: (value) => isValidName(value ?? '')
+                      ? null
+                      : 'Last bame must be at least 3 characters long',
+                  labelText: 'Last Name',
                   color: Colors.orange.shade100,
                 ),
                 SizedBox(height: maxSize * 0.05),
@@ -108,19 +122,45 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                   color: Colors.orange.shade100,
                 ),
                 SizedBox(height: maxSize * 0.2),
-                CATElevatedButton(
-                    backgroundColor: Colors.orange.shade900,
-                    onPressed: isValidName(_nameController.text) &&
-                            isValidEmail(_emailController.text) &&
-                            isValidPassword(_passwordController.text)
-                        ? () {}
-                        : null,
-                    child: Text(
-                      'Register',
-                      style: TextStyle(
+                BlocConsumer<AuthenticationCubit, AuthenticationState>(
+                  listener: (context, state) {
+                    if (state is LoggedIn) {
+                      // TODO : Home Screen
+                    } else if (state is RegisterError) {
+                      // TODO : Show Error
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is WaitRegistering) {
+                      return Center(
+                        child: CircularProgressIndicator(
                           color: Colors.orange.shade100,
-                          fontSize: maxSize * 0.04),
-                    )),
+                        ),
+                      );
+                    }
+                    return CATElevatedButton(
+                        backgroundColor: Colors.orange.shade900,
+                        onPressed: isValidName(_firstNameController.text) &&
+                                isValidName(_lastNameController.text) &&
+                                isValidEmail(_emailController.text) &&
+                                isValidPassword(_passwordController.text)
+                            ? () {
+                                context.read<AuthenticationCubit>().register(
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                      firstName: _firstNameController.text,
+                                      lastName: _lastNameController.text,
+                                    );
+                              }
+                            : null,
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                              color: Colors.orange.shade100,
+                              fontSize: maxSize * 0.04),
+                        ));
+                  },
+                ),
                 SizedBox(height: maxSize * 0.05),
                 CATTextButton(
                     foregroundColor: Colors.orange.shade100,

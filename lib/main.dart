@@ -1,5 +1,9 @@
+import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
+import 'package:catan_gui_flutter/repositories/user_repository.dart';
 import 'package:catan_gui_flutter/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
   runApp(const CatanApp());
@@ -13,20 +17,35 @@ class CatanApp extends StatefulWidget {
 }
 
 class _CatanAppState extends State<CatanApp> {
+  late final AuthenticationCubit _authenticationCubit;
+
   @override
   void initState() {
     super.initState();
-
-    registerBlocs();
+    registerRepositories();
+    createAndRegisterBlocs();
   }
 
-  void registerBlocs() {}
+  void createAndRegisterBlocs() {
+    _authenticationCubit = AuthenticationCubit();
+    GetIt.I.registerSingleton<AuthenticationCubit>(_authenticationCubit);
+  }
+
+  void registerRepositories() {
+    GetIt.I.registerSingleton<IUserRepository>(MockUserRepository());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: routerConfig,
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationCubit>(
+            create: (context) => _authenticationCubit),
+      ],
+      child: MaterialApp.router(
+        routerConfig: routerConfig,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

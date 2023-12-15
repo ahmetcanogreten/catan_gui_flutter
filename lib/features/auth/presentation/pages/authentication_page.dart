@@ -1,5 +1,5 @@
-import 'package:catan_gui_flutter/auth/presentation/widgets/login_drawer.dart';
-import 'package:catan_gui_flutter/auth/presentation/widgets/register_drawer.dart';
+import 'package:catan_gui_flutter/features/auth/presentation/widgets/login_drawer.dart';
+import 'package:catan_gui_flutter/features/auth/presentation/widgets/register_drawer.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:flutter/material.dart';

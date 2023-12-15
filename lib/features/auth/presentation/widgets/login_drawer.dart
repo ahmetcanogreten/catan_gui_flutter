@@ -1,8 +1,10 @@
+import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
 import 'package:catan_gui_flutter/utils/validators.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_text_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginDrawer extends StatefulWidget {
   final Function() onToRegisterPressed;
@@ -96,19 +98,43 @@ class _LoginDrawerState extends State<LoginDrawer> {
                   color: Colors.orange.shade100,
                 ),
                 SizedBox(height: maxSize * 0.2),
-                CATElevatedButton(
-                    foregroundColor: Colors.orange.shade100,
-                    backgroundColor: Colors.orange.shade900,
-                    onPressed: isValidEmail(_emailController.text) &&
-                            isValidPassword(_passwordController.text)
-                        ? () {}
-                        : null,
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                          // color: Colors.orange.shade100,
-                          fontSize: maxSize * 0.04),
-                    )),
+                BlocConsumer<AuthenticationCubit, AuthenticationState>(
+                  listener: (context, state) {
+                    if (state is LoggedIn) {
+                      // TODO : Home Screen
+                    } else if (state is LoginError) {
+                      // TODO : Show Error
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is WaitLoggingIn) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.orange.shade100,
+                        ),
+                      );
+                    }
+
+                    return CATElevatedButton(
+                        foregroundColor: Colors.orange.shade100,
+                        backgroundColor: Colors.orange.shade900,
+                        onPressed: isValidEmail(_emailController.text) &&
+                                isValidPassword(_passwordController.text)
+                            ? () {
+                                context.read<AuthenticationCubit>().login(
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                    );
+                              }
+                            : null,
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                              // color: Colors.orange.shade100,
+                              fontSize: maxSize * 0.04),
+                        ));
+                  },
+                ),
                 SizedBox(height: maxSize * 0.05),
                 CATTextButton(
                     foregroundColor: Colors.orange.shade100,

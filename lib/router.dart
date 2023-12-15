@@ -1,4 +1,4 @@
-import 'package:catan_gui_flutter/auth/presentation/pages/authentication_page.dart';
+import 'package:catan_gui_flutter/features/auth/presentation/pages/authentication_page.dart';
 import 'package:go_router/go_router.dart';
 
 // Routes

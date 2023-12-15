@@ -39,6 +39,8 @@ class HomePage extends StatelessWidget {
                           children: [
                             BlocBuilder<AuthenticationCubit,
                                 AuthenticationState>(
+                              buildWhen: (previous, current) =>
+                                  current is LoggedIn,
                               builder: (context, state) {
                                 final firstName =
                                     (state as LoggedIn).user.firstName;

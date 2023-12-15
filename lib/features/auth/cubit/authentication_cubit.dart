@@ -51,4 +51,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(RegisterError());
     }
   }
+
+  void logout() async {
+    emit(NotLoggedIn());
+  }
 }

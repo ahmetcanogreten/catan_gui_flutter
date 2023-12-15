@@ -1,16 +1,16 @@
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
-import 'package:catan_gui_flutter/router.dart';
 import 'package:catan_gui_flutter/utils/validators.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_text_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginDrawer extends StatefulWidget {
   final Function() onToRegisterPressed;
-  const LoginDrawer({super.key, required this.onToRegisterPressed});
+  final VoidCallback onToHome;
+  const LoginDrawer(
+      {super.key, required this.onToRegisterPressed, required this.onToHome});
 
   @override
   State<LoginDrawer> createState() => _LoginDrawerState();
@@ -103,7 +103,7 @@ class _LoginDrawerState extends State<LoginDrawer> {
                 BlocConsumer<AuthenticationCubit, AuthenticationState>(
                   listener: (context, state) {
                     if (state is LoggedIn) {
-                      context.go(homeRoute);
+                      widget.onToHome();
                     } else if (state is LoginError) {
                       // TODO : Show Error
                     }

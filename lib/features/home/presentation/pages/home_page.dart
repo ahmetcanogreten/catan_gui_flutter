@@ -103,9 +103,7 @@ class HomePage extends StatelessWidget {
                                     iconData: Icons.add_rounded,
                                     text: 'New Game',
                                     onPressed: () {
-                                      // context
-                                      //     .read<AuthenticationCubit>()
-                                      //     .logOutUser();
+                                      context.go(newGameRoute);
                                     },
                                   ),
                                 ),

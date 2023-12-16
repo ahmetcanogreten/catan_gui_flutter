@@ -53,8 +53,9 @@ final routerConfig = GoRouter(
     GoRoute(
       path: gameRoute,
       pageBuilder: (context, state) {
+        final gameId = (state.extra as Map)['gameId'] as int;
         return CustomTransitionPage(
-          child: const GamePage(),
+          child: GamePage(gameId: gameId),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,

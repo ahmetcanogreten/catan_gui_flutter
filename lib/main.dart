@@ -1,4 +1,5 @@
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
+import 'package:catan_gui_flutter/repositories/game_repository.dart';
 import 'package:catan_gui_flutter/repositories/user_repository.dart';
 import 'package:catan_gui_flutter/router.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +29,13 @@ class _CatanAppState extends State<CatanApp> {
 
   void createAndRegisterBlocs() {
     _authenticationCubit = AuthenticationCubit();
+    _authenticationCubit.login(email: "", password: "");
     GetIt.I.registerSingleton<AuthenticationCubit>(_authenticationCubit);
   }
 
   void registerRepositories() {
     GetIt.I.registerSingleton<IUserRepository>(MockUserRepository());
+    GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
   }
 
   @override

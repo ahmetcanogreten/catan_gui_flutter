@@ -1,11 +1,11 @@
-import 'package:catan_gui_flutter/features/lobby/models/resource.dart';
+import 'package:catan_gui_flutter/features/game/resource.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class CatanBoard extends StatelessWidget {
-  final List<Resource> resources;
-  final List<int> number;
-  const CatanBoard({super.key, required this.resources, required this.number});
+  final List<ResourceType> resources;
+  final List<int> numbers;
+  const CatanBoard({super.key, required this.resources, required this.numbers});
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +22,19 @@ class CatanBoard extends StatelessWidget {
       final verticalShift = hexagonHeight * 0.75;
       final horizontalShift = hexagonWidth;
 
-      Widget getResourceImage(Resource resource) {
+      Widget getResourceImage(ResourceType resource) {
         switch (resource) {
-          case Resource.fields:
+          case ResourceType.fields:
             return Assets.images.fields.image(fit: BoxFit.fill);
-          case Resource.forest:
+          case ResourceType.forest:
             return Assets.images.forest.image(fit: BoxFit.fill);
-          case Resource.hills:
+          case ResourceType.hills:
             return Assets.images.hills.image(fit: BoxFit.fill);
-          case Resource.mountains:
+          case ResourceType.mountains:
             return Assets.images.mountains.image(fit: BoxFit.fill);
-          case Resource.pasture:
+          case ResourceType.pasture:
             return Assets.images.pasture.image(fit: BoxFit.fill);
-          case Resource.desert:
+          case ResourceType.desert:
             return Assets.images.desert.image(fit: BoxFit.fill);
         }
       }
@@ -47,15 +47,6 @@ class CatanBoard extends StatelessWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              // Background
-              Positioned(
-                left: 0,
-                child: SizedBox(
-                  width: hexagonWidth,
-                  height: hexagonHeight,
-                  child: getResourceImage(resources[0]),
-                ),
-              ),
               // First row
               Positioned(
                 left: 0,
@@ -79,7 +70,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[0].toString(),
+                          numbers[0].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -110,7 +101,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[1].toString(),
+                          numbers[1].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -126,29 +117,29 @@ class CatanBoard extends StatelessWidget {
                     height: hexagonHeight,
                     child: getResourceImage(resources[2])),
               ),
-              // Positioned(
-              //   left: horizontalShift * 2,
-              //   child: SizedBox(
-              //       width: hexagonWidth,
-              //       height: hexagonHeight,
-              //       child: Center(
-              //         child: Container(
-              //           alignment: Alignment.center,
-              //           width: hexagonWidth * 0.4,
-              //           decoration: BoxDecoration(
-              //               color: Colors.orange.shade100,
-              //               shape: BoxShape.circle,
-              //               border: Border.all(color: Colors.black, width: 4)),
-              //           child: Text(
-              //             number[2].toString(),
-              //             style: TextStyle(
-              //               color: Colors.black,
-              //               fontSize: hexagonHeight * 0.2,
-              //             ),
-              //           ),
-              //         ),
-              //       )),
-              // ),
+              Positioned(
+                left: horizontalShift * 2,
+                child: SizedBox(
+                    width: hexagonWidth,
+                    height: hexagonHeight,
+                    child: Center(
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: hexagonWidth * 0.4,
+                        decoration: BoxDecoration(
+                            color: Colors.orange.shade100,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.black, width: 4)),
+                        child: Text(
+                          numbers[2].toString(),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: hexagonHeight * 0.2,
+                          ),
+                        ),
+                      ),
+                    )),
+              ),
               // Second row
               Positioned(
                 left: -1 * horizontalShift / 2,
@@ -173,7 +164,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[3].toString(),
+                          numbers[3].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -205,7 +196,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[4].toString(),
+                          numbers[4].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -237,7 +228,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[5].toString(),
+                          numbers[5].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -269,7 +260,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[6].toString(),
+                          numbers[6].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -302,7 +293,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[7].toString(),
+                          numbers[7].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -334,7 +325,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[8].toString(),
+                          numbers[8].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -349,7 +340,7 @@ class CatanBoard extends StatelessWidget {
                 child: SizedBox(
                     width: hexagonWidth,
                     height: hexagonHeight,
-                    child: getResourceImage(Resource.desert)),
+                    child: getResourceImage(ResourceType.desert)),
               ),
               Positioned(
                 left: -2 * horizontalShift / 2 + horizontalShift * 2,
@@ -398,7 +389,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[9].toString(),
+                          numbers[9].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -430,7 +421,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[10].toString(),
+                          numbers[10].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -463,7 +454,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[11].toString(),
+                          numbers[11].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -495,7 +486,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[12].toString(),
+                          numbers[12].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -527,7 +518,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[13].toString(),
+                          numbers[13].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -559,7 +550,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[14].toString(),
+                          numbers[14].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -592,7 +583,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[15].toString(),
+                          numbers[15].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -624,7 +615,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[16].toString(),
+                          numbers[16].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,
@@ -656,7 +647,7 @@ class CatanBoard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.black, width: 4)),
                         child: Text(
-                          number[17].toString(),
+                          numbers[17].toString(),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: hexagonHeight * 0.2,

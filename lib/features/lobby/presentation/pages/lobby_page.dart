@@ -1,23 +1,22 @@
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
-import 'package:catan_gui_flutter/features/new_game/models/resource.dart';
-import 'package:catan_gui_flutter/features/new_game/presentation/widgets/catan_board.dart';
-import 'package:catan_gui_flutter/features/new_game/presentation/widgets/player_entry.dart';
+import 'package:catan_gui_flutter/features/lobby/models/resource.dart';
+import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
+import 'package:catan_gui_flutter/features/lobby/presentation/widgets/player_entry.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
-import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/router.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class NewGamePage extends StatefulWidget {
-  const NewGamePage({super.key});
+class LobbyPage extends StatefulWidget {
+  const LobbyPage({super.key});
 
   @override
-  State<NewGamePage> createState() => _NewGamePageState();
+  State<LobbyPage> createState() => _LobbyPageState();
 }
 
-class _NewGamePageState extends State<NewGamePage> {
+class _LobbyPageState extends State<LobbyPage> {
   int _numberOfBots = 0;
 
   final List<Resource> _resources = [

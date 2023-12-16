@@ -1,4 +1,4 @@
-import 'package:catan_gui_flutter/features/new_game/models/resource.dart';
+import 'package:catan_gui_flutter/features/lobby/models/resource.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 

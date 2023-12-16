@@ -22,6 +22,30 @@ class CatanBoard extends StatelessWidget {
       final verticalShift = hexagonHeight * 0.75;
       final horizontalShift = hexagonWidth;
 
+      double getFontSizeForNumber(int number) {
+        final fontSize = hexagonHeight * 0.2;
+        switch (number) {
+          case 2:
+          case 12:
+            return fontSize * 0.5;
+          case 3:
+          case 11:
+            return fontSize * 0.6;
+          case 4:
+          case 10:
+            return fontSize * 0.7;
+          case 5:
+          case 9:
+            return fontSize * 0.8;
+          case 6:
+          case 8:
+          case 7:
+            return fontSize * 1;
+          default:
+            return fontSize;
+        }
+      }
+
       Widget getResourceImage(ResourceType resource) {
         switch (resource) {
           case ResourceType.fields:
@@ -73,7 +97,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[0].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[0]),
                           ),
                         ),
                       ),
@@ -104,7 +128,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[1].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[1]),
                           ),
                         ),
                       ),
@@ -134,7 +158,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[2].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[2]),
                           ),
                         ),
                       ),
@@ -167,7 +191,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[3].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[3]),
                           ),
                         ),
                       ),
@@ -199,7 +223,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[4].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[4]),
                           ),
                         ),
                       ),
@@ -231,7 +255,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[5].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[5]),
                           ),
                         ),
                       ),
@@ -263,7 +287,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[6].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[6]),
                           ),
                         ),
                       ),
@@ -296,7 +320,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[7].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[7]),
                           ),
                         ),
                       ),
@@ -328,7 +352,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[8].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[8]),
                           ),
                         ),
                       ),
@@ -360,7 +384,7 @@ class CatanBoard extends StatelessWidget {
                           '7',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(7),
                           ),
                         ),
                       ),
@@ -392,7 +416,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[9].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[9]),
                           ),
                         ),
                       ),
@@ -424,7 +448,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[10].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[10]),
                           ),
                         ),
                       ),
@@ -457,7 +481,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[11].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[11]),
                           ),
                         ),
                       ),
@@ -489,7 +513,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[12].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[12]),
                           ),
                         ),
                       ),
@@ -521,7 +545,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[13].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[13]),
                           ),
                         ),
                       ),
@@ -553,7 +577,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[14].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[14]),
                           ),
                         ),
                       ),
@@ -586,7 +610,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[15].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[15]),
                           ),
                         ),
                       ),
@@ -618,7 +642,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[16].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[16]),
                           ),
                         ),
                       ),
@@ -650,7 +674,7 @@ class CatanBoard extends StatelessWidget {
                           numbers[17].toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: hexagonHeight * 0.2,
+                            fontSize: getFontSizeForNumber(numbers[17]),
                           ),
                         ),
                       ),

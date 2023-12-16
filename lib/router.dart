@@ -1,4 +1,5 @@
 import 'package:catan_gui_flutter/features/auth/presentation/pages/authentication_page.dart';
+import 'package:catan_gui_flutter/features/game/presentation/pages/game_page.dart';
 import 'package:catan_gui_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/pages/lobby_page.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +9,7 @@ import 'package:go_router/go_router.dart';
 const authenticationRoute = '/authentication';
 const homeRoute = '/home';
 const newGameRoute = '/home/new-game';
+const gameRoute = '/game';
 
 // GoRouter configuration
 final routerConfig = GoRouter(
@@ -48,5 +50,19 @@ final routerConfig = GoRouter(
             },
           ),
         ]),
+    GoRoute(
+      path: gameRoute,
+      pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          child: const GamePage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        );
+      },
+    )
   ],
 );

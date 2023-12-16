@@ -218,7 +218,7 @@ class _LobbyPageState extends State<LobbyPage> {
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(16),
                                       onTap: () {
-                                        context.go(homeRoute);
+                                        context.go(gameRoute);
                                       },
                                       child: Container(
                                         padding: const EdgeInsets.all(8),

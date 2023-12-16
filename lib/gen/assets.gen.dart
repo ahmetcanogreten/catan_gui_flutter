@@ -16,8 +16,39 @@ class $AssetsImagesGen {
   AssetGenImage get catanBackground =>
       const AssetGenImage('assets/images/catan_background.jpg');
 
+  /// File path: assets/images/desert.png
+  AssetGenImage get desert => const AssetGenImage('assets/images/desert.png');
+
+  /// File path: assets/images/dice.png
+  AssetGenImage get dice => const AssetGenImage('assets/images/dice.png');
+
+  /// File path: assets/images/fields.png
+  AssetGenImage get fields => const AssetGenImage('assets/images/fields.png');
+
+  /// File path: assets/images/forest.png
+  AssetGenImage get forest => const AssetGenImage('assets/images/forest.png');
+
+  /// File path: assets/images/hills.png
+  AssetGenImage get hills => const AssetGenImage('assets/images/hills.png');
+
+  /// File path: assets/images/mountains.png
+  AssetGenImage get mountains =>
+      const AssetGenImage('assets/images/mountains.png');
+
+  /// File path: assets/images/pasture.png
+  AssetGenImage get pasture => const AssetGenImage('assets/images/pasture.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [catanBackground];
+  List<AssetGenImage> get values => [
+        catanBackground,
+        desert,
+        dice,
+        fields,
+        forest,
+        hills,
+        mountains,
+        pasture
+      ];
 }
 
 class Assets {

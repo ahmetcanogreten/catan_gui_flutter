@@ -13,29 +13,37 @@ class GameCubit extends Cubit<GameState> {
 
   late final Game game;
 
+  Timer? _timer;
+
   GameCubit()
       : _gameRepository = GetIt.I.get<IGameRepository>(),
         super(GameInitial());
 
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
   void startGetGameStateTimer({required int gameId}) async {
-    try {
-      emit(GameLoading());
+    emit(GameLoading());
 
-      game = await _gameRepository.getGame(gameId: gameId);
+    game = await _gameRepository.getGame(gameId: gameId);
 
-      Timer.periodic(const Duration(seconds: 1), (timer) async {
-        final latestGameState = await _gameRepository.getGameState(
-          gameId: gameId,
-        );
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      final latestGameState = await _gameRepository.getGameState(
+        gameId: gameId,
+      );
 
-        emit(GameLoaded(
-          game: game.copyWith(
-            gameState: latestGameState,
-          ),
-        ));
-      });
-    } catch (e) {
-      // TODO: handle exception
-    }
+      if (isClosed) {
+        return;
+      }
+
+      emit(GameLoaded(
+        game: game.copyWith(
+          gameState: latestGameState,
+        ),
+      ));
+    });
   }
 }

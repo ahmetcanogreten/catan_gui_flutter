@@ -71,7 +71,7 @@ class _GamePageState extends State<GamePage> {
                         ));
                       }
 
-                      final resources = state.game.resources;
+                      final resources = [...state.game.resources];
                       resources.sort((a, b) => a.index.compareTo(b.index));
 
                       final orderedResourceTypes = resources.map((e) => e.type);

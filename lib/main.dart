@@ -1,5 +1,6 @@
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
 import 'package:catan_gui_flutter/repositories/game_repository.dart';
+import 'package:catan_gui_flutter/repositories/room_repository.dart';
 import 'package:catan_gui_flutter/repositories/user_repository.dart';
 import 'package:catan_gui_flutter/router.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class _CatanAppState extends State<CatanApp> {
   void registerRepositories() {
     GetIt.I.registerSingleton<IUserRepository>(MockUserRepository());
     GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
+    GetIt.I.registerSingleton<IRoomRepository>(MockRoomRepository());
   }
 
   @override

@@ -77,7 +77,6 @@ class MockRoomRepository implements IRoomRepository {
 
   @override
   Future<Room> getRoom({required int roomId}) async {
-    await Future.delayed(const Duration(seconds: 1));
     return room;
   }
 

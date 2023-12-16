@@ -50,10 +50,14 @@ class _LobbyPageState extends State<LobbyPage> {
                     builder: (context, state) {
                       if (state is! LobbyLoaded) {
                         return Center(
+                            child: SizedBox(
+                          width: maxSize * 0.25,
+                          height: maxSize * 0.25,
                           child: CircularProgressIndicator(
+                            strokeWidth: maxSize * 0.01,
                             color: Colors.orange.shade100,
                           ),
-                        );
+                        ));
                       }
 
                       final usersInTheRoom = state.room.users;
@@ -168,7 +172,8 @@ class _LobbyPageState extends State<LobbyPage> {
                                             }
                                           },
                                           builder: (context, state) {
-                                            if (state is GameCreating) {
+                                            if (state is GameCreating ||
+                                                state is GameCreated) {
                                               return Center(
                                                 child:
                                                     CircularProgressIndicator(

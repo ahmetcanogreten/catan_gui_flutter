@@ -248,7 +248,6 @@ class _LobbyPageState extends State<LobbyPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  flex: 2,
                                   child: CatanBoard(
                                       resources: _resources, number: _numbers),
                                 ),

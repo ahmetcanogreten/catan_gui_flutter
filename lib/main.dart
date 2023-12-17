@@ -42,7 +42,7 @@ class _CatanAppState extends State<CatanApp> {
   void registerBackendRepositories() {
     GetIt.I.registerSingleton<IUserRepository>(BackendUserRepository());
     GetIt.I.registerSingleton<IRoomRepository>(BackendRoomRepository());
-    GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
+    GetIt.I.registerSingleton<IGameRepository>(BackendGameRepository());
   }
 
   @override

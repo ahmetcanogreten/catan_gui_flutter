@@ -64,9 +64,9 @@ class LobbyCubit extends Cubit<LobbyState> {
     try {
       emit(GameCreating());
 
-      final gameId = await _gameRepository.createGame(roomId: room.id);
+      final game = await _gameRepository.createGame(roomId: room.id);
 
-      emit(GameCreated(gameId: gameId));
+      emit(GameCreated(gameId: game.id));
     } catch (e) {
       emit(GameCreatingError());
     }

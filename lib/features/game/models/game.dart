@@ -8,16 +8,16 @@ class Game extends Equatable {
   final DateTime startedAt;
   final DateTime? finishedAt;
   final List<Resource> resources;
-  final GameState gameState;
-  final List<User> players;
+  // final GameState gameState;
+  final List<User> users;
 
   const Game({
     required this.id,
     required this.startedAt,
     this.finishedAt,
     required this.resources,
-    required this.gameState,
-    required this.players,
+    // required this.gameState,
+    required this.users,
   });
 
   @override
@@ -26,8 +26,8 @@ class Game extends Equatable {
         startedAt,
         finishedAt,
         resources,
-        gameState,
-        players,
+        // gameState,
+        users,
       ];
 
   Game copyWith({
@@ -43,8 +43,25 @@ class Game extends Equatable {
       startedAt: startedAt ?? this.startedAt,
       finishedAt: finishedAt ?? this.finishedAt,
       resources: resources ?? this.resources,
-      gameState: gameState ?? this.gameState,
-      players: players ?? this.players,
+      // gameState: gameState ?? this.gameState,
+      users: players ?? this.users,
+    );
+  }
+
+  static Game fromJson(Map<String, dynamic> json) {
+    return Game(
+      id: json['id'] as int,
+      startedAt: DateTime.parse(json['startedAt'] as String),
+      finishedAt: json['finishedAt'] == null
+          ? null
+          : DateTime.parse(json['finishedAt'] as String),
+      resources: (json['resources'] as List<dynamic>)
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      // gameState: GameState.fromJson(json['gameState'] as Map<String, dynamic>),
+      users: (json['users'] as List<dynamic>)
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

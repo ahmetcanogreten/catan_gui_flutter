@@ -3,16 +3,24 @@ import 'package:equatable/equatable.dart';
 
 class GameState extends Equatable {
   final int id;
-  final User turnPlayer;
-  final Map board;
+  final User turnUser;
+  final Map? board;
 
   const GameState(
-      {required this.id, required this.turnPlayer, required this.board});
+      {required this.id, required this.turnUser, required this.board});
 
   @override
   List<Object> get props => [
         id,
-        turnPlayer,
-        board,
+        turnUser,
+        board ?? 0,
       ];
+
+  static GameState fromJson(Map<String, dynamic> json) {
+    return GameState(
+      id: json['id'] as int,
+      turnUser: User.fromJson(json['turnUser'] as Map<String, dynamic>),
+      board: json['board'] as Map?,
+    );
+  }
 }

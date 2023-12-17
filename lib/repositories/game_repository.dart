@@ -1,14 +1,38 @@
+import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state.dart';
 import 'package:catan_gui_flutter/features/game/resource.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 
 abstract interface class IGameRepository {
-  Future<int> createGame({required int roomId});
+  Future<Game> createGame({required int roomId});
 
   Future<Game> getGame({required int gameId});
 
   Future<GameState> getGameState({required int gameId});
+}
+
+class BackendGameRepository implements IGameRepository {
+  @override
+  Future<Game> createGame({required int roomId}) async {
+    final response = await apiClient.post("/api/games?roomId=$roomId");
+
+    return Game.fromJson(response.data);
+  }
+
+  @override
+  Future<Game> getGame({required int gameId}) async {
+    final response = await apiClient.get("/api/games/$gameId");
+
+    return Game.fromJson(response.data);
+  }
+
+  @override
+  Future<GameState> getGameState({required int gameId}) async {
+    final response = await apiClient.get("/api/games/$gameId/state");
+
+    return GameState.fromJson(response.data);
+  }
 }
 
 class MockGameRepository implements IGameRepository {
@@ -69,9 +93,20 @@ class MockGameRepository implements IGameRepository {
   Map? board = {};
 
   @override
-  Future<int> createGame({required int roomId}) async {
+  Future<Game> createGame({required int roomId}) async {
     await Future.delayed(const Duration(seconds: 1));
-    return 1;
+    return Game(
+      id: 1,
+      startedAt: DateTime.now(),
+      finishedAt: null,
+      resources: resources,
+      // gameState: GameState(
+      //   id: 1,
+      //   turnPlayer: turnPlayer,
+      //   board: {},
+      // ),
+      users: players,
+    );
   }
 
   @override
@@ -83,12 +118,12 @@ class MockGameRepository implements IGameRepository {
       startedAt: DateTime.now(),
       finishedAt: null,
       resources: resources,
-      gameState: GameState(
-        id: 1,
-        turnPlayer: turnPlayer,
-        board: {},
-      ),
-      players: players,
+      // gameState: GameState(
+      //   id: 1,
+      //   turnPlayer: turnPlayer,
+      //   board: {},
+      // ),
+      users: players,
     );
   }
 
@@ -98,7 +133,7 @@ class MockGameRepository implements IGameRepository {
 
     return GameState(
       id: 1,
-      turnPlayer: turnPlayer!,
+      turnUser: turnPlayer!,
       board: {},
     );
   }

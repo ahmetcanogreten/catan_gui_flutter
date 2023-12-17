@@ -17,6 +17,8 @@ class LobbyPage extends StatefulWidget {
 }
 
 class _LobbyPageState extends State<LobbyPage> {
+  bool _isCreating = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -158,7 +160,11 @@ class _LobbyPageState extends State<LobbyPage> {
                                         child: BlocConsumer<LobbyCubit,
                                             LobbyState>(
                                           listener: (context, state) {
-                                            if (state is GameCreated) {
+                                            if (state is GameCreating) {
+                                              setState(() {
+                                                _isCreating = true;
+                                              });
+                                            } else if (state is GameCreated) {
                                               context.go(
                                                 gameRoute,
                                                 extra: {
@@ -168,8 +174,7 @@ class _LobbyPageState extends State<LobbyPage> {
                                             }
                                           },
                                           builder: (context, state) {
-                                            if (state is GameCreating ||
-                                                state is GameCreated) {
+                                            if (_isCreating) {
                                               return Center(
                                                 child:
                                                     CircularProgressIndicator(

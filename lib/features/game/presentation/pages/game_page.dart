@@ -23,7 +23,7 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  bool _isMyTurn = true;
+  bool _isMyTurn = false;
   TurnState _turnState = TurnState.initial;
   List<int> _diceValues = [6, 6];
 
@@ -46,7 +46,7 @@ class _GamePageState extends State<GamePage> {
                       .id;
 
               setState(() {
-                // _isMyTurn = state.game.gameState.turnPlayer.id == userId;
+                _isMyTurn = state.gameStateModel.turnUser.id == userId;
               });
             }
           },
@@ -79,39 +79,43 @@ class _GamePageState extends State<GamePage> {
                       final orderedResourceNumbers =
                           resources.map((e) => e.number);
 
-                      final players = state.game.users;
-                      // final turnPlayer = state.game.gameState.turnPlayer;
+                      final users = state.game.users;
+                      final usersCycle = state.game.usersCycle;
+                      final turnUser = state.gameStateModel.turnUser;
 
                       return Padding(
                         padding: EdgeInsets.all(maxSize * 0.1),
                         child: Row(
                           children: [
-                            // Expanded(
-                            //   child: BlocBuilder<GameCubit, GameState>(
-                            //     builder: (context, state) {
-                            //       return ListView.separated(
-                            //         shrinkWrap: true,
-                            //         separatorBuilder: (context, index) =>
-                            //             SizedBox(
-                            //           height: maxSize * 0.02,
-                            //         ),
-                            //         itemBuilder: (context, index) {
-                            //           return InGamePlayerEntry(
-                            //             isTurnPlayer:
-                            //                 players[index] == turnPlayer,
-                            //             user: players[index],
-                            //             numberOfBricks: 1,
-                            //             numberOfWool: 2,
-                            //             numberOfOre: 3,
-                            //             numberOfGrain: 4,
-                            //             numberOfLumber: 5,
-                            //           );
-                            //         },
-                            //         itemCount: 2,
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
+                            Expanded(
+                              child: BlocBuilder<GameCubit, GameState>(
+                                builder: (context, state) {
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(
+                                      height: maxSize * 0.02,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return InGamePlayerEntry(
+                                        isTurnPlayer:
+                                            usersCycle[index] == turnUser.id,
+                                        user: users.firstWhere((element) =>
+                                            element.id == usersCycle[index]),
+                                        numberOfBricks: 1,
+                                        numberOfWool: 2,
+                                        numberOfOre: 3,
+                                        numberOfGrain: 4,
+                                        numberOfLumber: 5,
+                                      );
+                                    },
+                                    itemCount: usersCycle.length,
+                                  );
+                                },
+                              ),
+                            ),
                             SizedBox(width: maxSize * 0.1),
                             Expanded(
                                 flex: 2,

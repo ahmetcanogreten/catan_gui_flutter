@@ -1,15 +1,18 @@
 import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
-import 'package:catan_gui_flutter/features/game/models/game_state.dart';
+import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/resource.dart';
 import 'package:catan_gui_flutter/models/user.dart';
+import 'package:catan_gui_flutter/models/user_state.dart';
 
 abstract interface class IGameRepository {
   Future<Game> createGame({required int roomId});
 
   Future<Game> getGame({required int gameId});
 
-  Future<GameState> getGameState({required int gameId});
+  Future<GameStateModel> getGameState({required int gameId});
+
+  Future<List<UserState>> getUserStates({required int gameId});
 }
 
 class BackendGameRepository implements IGameRepository {
@@ -28,10 +31,17 @@ class BackendGameRepository implements IGameRepository {
   }
 
   @override
-  Future<GameState> getGameState({required int gameId}) async {
+  Future<GameStateModel> getGameState({required int gameId}) async {
     final response = await apiClient.get("/api/games/$gameId/state");
 
-    return GameState.fromJson(response.data);
+    return GameStateModel.fromJson(response.data);
+  }
+
+  @override
+  Future<List<UserState>> getUserStates({required int gameId}) async {
+    final response = await apiClient.get("/api/games/$gameId/user-states");
+
+    return (response.data as List).map((e) => UserState.fromJson(e)).toList();
   }
 }
 
@@ -100,12 +110,8 @@ class MockGameRepository implements IGameRepository {
       startedAt: DateTime.now(),
       finishedAt: null,
       resources: resources,
-      // gameState: GameState(
-      //   id: 1,
-      //   turnPlayer: turnPlayer,
-      //   board: {},
-      // ),
       users: players,
+      usersCycle: players.map((e) => e.id).toList(),
     );
   }
 
@@ -118,23 +124,44 @@ class MockGameRepository implements IGameRepository {
       startedAt: DateTime.now(),
       finishedAt: null,
       resources: resources,
-      // gameState: GameState(
-      //   id: 1,
-      //   turnPlayer: turnPlayer,
-      //   board: {},
-      // ),
       users: players,
+      usersCycle: players.map((e) => e.id).toList(),
     );
   }
 
   @override
-  Future<GameState> getGameState({required int gameId}) async {
+  Future<GameStateModel> getGameState({required int gameId}) async {
     await Future.delayed(const Duration(seconds: 1));
 
-    return GameState(
+    return GameStateModel(
       id: 1,
-      turnUser: turnPlayer!,
+      turnUser: turnPlayer,
       board: {},
     );
+  }
+
+  @override
+  Future<List<UserState>> getUserStates({required int gameId}) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return players
+        .map((e) => UserState(
+              id: 1,
+              user: e,
+              game: Game(
+                id: 1,
+                startedAt: DateTime.now(),
+                finishedAt: null,
+                resources: resources,
+                users: players,
+                usersCycle: players.map((e) => e.id).toList(),
+              ),
+              numberOfBricks: 0,
+              numberOfGrain: 0,
+              numberOfLumber: 0,
+              numberOfOre: 0,
+              numberOfWool: 0,
+            ))
+        .toList();
   }
 }

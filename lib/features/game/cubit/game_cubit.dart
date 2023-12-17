@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
+import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
+import 'package:catan_gui_flutter/models/user_state.dart';
 import 'package:catan_gui_flutter/repositories/game_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
@@ -31,7 +33,11 @@ class GameCubit extends Cubit<GameState> {
     game = await _gameRepository.getGame(gameId: gameId);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      final latestGameState = await _gameRepository.getGameState(
+      final userStates = await _gameRepository.getUserStates(
+        gameId: gameId,
+      );
+
+      final gameStateModel = await _gameRepository.getGameState(
         gameId: gameId,
       );
 
@@ -40,10 +46,7 @@ class GameCubit extends Cubit<GameState> {
       }
 
       emit(GameLoaded(
-        game: game.copyWith(
-          gameState: latestGameState,
-        ),
-      ));
+          game: game, gameStateModel: gameStateModel, userStates: userStates));
     });
   }
 }

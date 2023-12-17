@@ -8,6 +8,7 @@ class CATTextFormField extends StatefulWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final void Function()? onChanged;
+  final void Function(String)? onFieldSubmitted;
 
   final Color color;
   const CATTextFormField({
@@ -20,6 +21,7 @@ class CATTextFormField extends StatefulWidget {
     this.color = Colors.white,
     this.suffixIcon,
     this.onChanged,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -39,6 +41,7 @@ class _CATTextFormFieldState extends State<CATTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: widget.onFieldSubmitted,
       focusNode: _focusNode,
       controller: widget.controller,
       obscuringCharacter: '•',

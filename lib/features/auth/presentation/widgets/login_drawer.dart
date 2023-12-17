@@ -29,6 +29,16 @@ class _LoginDrawerState extends State<LoginDrawer> {
     super.dispose();
   }
 
+  void onLogin() {
+    if (isValidEmail(_emailController.text) &&
+        isValidPassword(_passwordController.text)) {
+      context.read<AuthenticationCubit>().login(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -69,6 +79,9 @@ class _LoginDrawerState extends State<LoginDrawer> {
                 ),
                 SizedBox(height: maxSize * 0.1),
                 CATTextFormField(
+                  onFieldSubmitted: (_) {
+                    onLogin();
+                  },
                   onChanged: () => setState(() {}),
                   controller: _emailController,
                   validator: (value) => isValidEmail(value ?? '')
@@ -79,6 +92,9 @@ class _LoginDrawerState extends State<LoginDrawer> {
                 ),
                 SizedBox(height: maxSize * 0.05),
                 CATTextFormField(
+                  onFieldSubmitted: (_) {
+                    onLogin();
+                  },
                   onChanged: () => setState(() {}),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -138,10 +154,7 @@ class _LoginDrawerState extends State<LoginDrawer> {
                         onPressed: isValidEmail(_emailController.text) &&
                                 isValidPassword(_passwordController.text)
                             ? () {
-                                context.read<AuthenticationCubit>().login(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                    );
+                                onLogin();
                               }
                             : null,
                         child: Text(

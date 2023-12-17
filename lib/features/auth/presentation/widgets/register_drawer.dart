@@ -33,6 +33,20 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
     super.dispose();
   }
 
+  void onRegister() {
+    if (isValidName(_firstNameController.text) &&
+        isValidName(_lastNameController.text) &&
+        isValidEmail(_emailController.text) &&
+        isValidPassword(_passwordController.text)) {
+      context.read<AuthenticationCubit>().register(
+            email: _emailController.text,
+            password: _passwordController.text,
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -73,6 +87,9 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                 ),
                 SizedBox(height: maxSize * 0.1),
                 CATTextFormField(
+                  onFieldSubmitted: (_) {
+                    onRegister();
+                  },
                   onChanged: () => setState(() {}),
                   controller: _firstNameController,
                   validator: (value) => isValidName(value ?? '')
@@ -83,6 +100,9 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                 ),
                 SizedBox(height: maxSize * 0.05),
                 CATTextFormField(
+                  onFieldSubmitted: (_) {
+                    onRegister();
+                  },
                   onChanged: () => setState(() {}),
                   controller: _lastNameController,
                   validator: (value) => isValidName(value ?? '')
@@ -93,6 +113,9 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                 ),
                 SizedBox(height: maxSize * 0.05),
                 CATTextFormField(
+                  onFieldSubmitted: (_) {
+                    onRegister();
+                  },
                   onChanged: () => setState(() {}),
                   controller: _emailController,
                   validator: (value) => isValidEmail(value ?? '')
@@ -103,6 +126,9 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                 ),
                 SizedBox(height: maxSize * 0.05),
                 CATTextFormField(
+                  onFieldSubmitted: (_) {
+                    onRegister();
+                  },
                   onChanged: () => setState(() {}),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -162,12 +188,7 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                                 isValidEmail(_emailController.text) &&
                                 isValidPassword(_passwordController.text)
                             ? () {
-                                context.read<AuthenticationCubit>().register(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                      firstName: _firstNameController.text,
-                                      lastName: _lastNameController.text,
-                                    );
+                                onRegister();
                               }
                             : null,
                         child: Text(

@@ -100,6 +100,21 @@ class _LoginDrawerState extends State<LoginDrawer> {
                   color: Colors.orange.shade100,
                 ),
                 SizedBox(height: maxSize * 0.2),
+                BlocBuilder<AuthenticationCubit, AuthenticationState>(
+                    builder: (context, state) {
+                  if (state is LoginError) {
+                    return Text(
+                      '* Username or Password incorrect. Please try again.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.orange.shade100,
+                        fontSize: maxSize * 0.02,
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+                SizedBox(height: maxSize * 0.05),
                 BlocConsumer<AuthenticationCubit, AuthenticationState>(
                   listener: (context, state) {
                     if (state is LoggedIn) {

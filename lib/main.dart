@@ -24,18 +24,23 @@ class _CatanAppState extends State<CatanApp> {
   @override
   void initState() {
     super.initState();
-    registerRepositories();
+    registerBackendRepositories();
     createAndRegisterBlocs();
   }
 
   void createAndRegisterBlocs() {
     _authenticationCubit = AuthenticationCubit();
-    _authenticationCubit.login(email: "", password: "");
     GetIt.I.registerSingleton<AuthenticationCubit>(_authenticationCubit);
   }
 
-  void registerRepositories() {
+  void registerMockRepositories() {
     GetIt.I.registerSingleton<IUserRepository>(MockUserRepository());
+    GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
+    GetIt.I.registerSingleton<IRoomRepository>(MockRoomRepository());
+  }
+
+  void registerBackendRepositories() {
+    GetIt.I.registerSingleton<IUserRepository>(BackendUserRepository());
     GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
     GetIt.I.registerSingleton<IRoomRepository>(MockRoomRepository());
   }

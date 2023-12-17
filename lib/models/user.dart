@@ -15,4 +15,13 @@ class User extends Equatable {
 
   @override
   List<Object> get props => [id, firstName, lastName, email];
+
+  static User fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      email: json['email'],
+    );
+  }
 }

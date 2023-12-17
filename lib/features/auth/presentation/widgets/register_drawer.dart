@@ -124,6 +124,21 @@ class _RegisterDrawerState extends State<RegisterDrawer> {
                   color: Colors.orange.shade100,
                 ),
                 SizedBox(height: maxSize * 0.2),
+                BlocBuilder<AuthenticationCubit, AuthenticationState>(
+                    builder: (context, state) {
+                  if (state is RegisterError) {
+                    return Text(
+                      '* Could not register. Please try again.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.orange.shade100,
+                        fontSize: maxSize * 0.02,
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+                SizedBox(height: maxSize * 0.05),
                 BlocConsumer<AuthenticationCubit, AuthenticationState>(
                   listener: (context, state) {
                     if (state is LoggedIn) {

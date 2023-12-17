@@ -1,4 +1,3 @@
-import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
 import 'package:catan_gui_flutter/features/lobby/cubit/lobby_cubit.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/player_entry.dart';
@@ -8,7 +7,6 @@ import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class LobbyPage extends StatefulWidget {
@@ -22,10 +20,8 @@ class _LobbyPageState extends State<LobbyPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LobbyCubit()
-        ..createRoomAndStartTimer(
-            ownerId:
-                (GetIt.I.get<AuthenticationCubit>().state as LoggedIn).user.id),
+      create: (context) =>
+          LobbyCubit()..createRoomAndStartTimer(roomName: "Room"),
       child: LayoutBuilder(builder: (context, constraints) {
         final maxSize = constraints.maxWidth > constraints.maxHeight
             ? constraints.maxHeight

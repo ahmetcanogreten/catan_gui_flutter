@@ -19,4 +19,21 @@ class Resource extends Equatable {
         type,
         number,
       ];
+
+  static Resource fromJson(Map<String, dynamic> json) {
+    return Resource(
+      index: json['index'] as int,
+      type: ResourceType.values.firstWhere(
+          (element) => element.toString().split('.').last == json['type']),
+      number: json['number'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'index': index,
+      'type': type.toString().split('.').last,
+      'number': number,
+    };
+  }
 }

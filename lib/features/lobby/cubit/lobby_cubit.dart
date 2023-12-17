@@ -28,13 +28,14 @@ class LobbyCubit extends Cubit<LobbyState> {
     return super.close();
   }
 
-  void createRoomAndStartTimer({required String ownerId}) async {
+  void createRoomAndStartTimer({required String roomName}) async {
     emit(LobbyCreating());
 
-    final roomId = await _roomRepository.createRoom(ownerId: ownerId);
+    room = await _roomRepository.createRoom(name: roomName);
+    emit(LobbyLoaded(room: room));
 
     timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      room = await _roomRepository.getRoom(roomId: roomId);
+      room = await _roomRepository.getRoom(roomId: room.id);
 
       if (isClosed) {
         return;

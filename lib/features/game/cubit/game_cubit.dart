@@ -49,4 +49,13 @@ class GameCubit extends Cubit<GameState> {
           game: game, gameStateModel: gameStateModel, userStates: userStates));
     });
   }
+
+  void sendRollDice(
+      {required int gameId,
+      required int dice1,
+      required int dice2,
+      required String userId}) async {
+    await _gameRepository.rollDice(
+        gameId: gameId, dice1: dice1, dice2: dice2, userId: userId);
+  }
 }

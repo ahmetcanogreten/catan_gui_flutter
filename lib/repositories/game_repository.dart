@@ -13,6 +13,12 @@ abstract interface class IGameRepository {
   Future<GameStateModel> getGameState({required int gameId});
 
   Future<List<UserState>> getUserStates({required int gameId});
+
+  Future<GameStateModel> rollDice(
+      {required int gameId,
+      required int dice1,
+      required int dice2,
+      required String userId});
 }
 
 class BackendGameRepository implements IGameRepository {
@@ -42,6 +48,19 @@ class BackendGameRepository implements IGameRepository {
     final response = await apiClient.get("/api/games/$gameId/user-states");
 
     return (response.data as List).map((e) => UserState.fromJson(e)).toList();
+  }
+
+  @override
+  Future<GameStateModel> rollDice({
+    required int gameId,
+    required int dice1,
+    required int dice2,
+    required String userId,
+  }) async {
+    final response = await apiClient.post("/api/games/$gameId/roll",
+        data: {"userId": userId, "dice1": dice1, "dice2": dice2});
+
+    return GameStateModel.fromJson(response.data);
   }
 }
 
@@ -134,10 +153,7 @@ class MockGameRepository implements IGameRepository {
     await Future.delayed(const Duration(seconds: 1));
 
     return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      board: {},
-    );
+        id: 1, turnUser: turnPlayer, turnState: TurnState.roll);
   }
 
   @override
@@ -146,22 +162,44 @@ class MockGameRepository implements IGameRepository {
 
     return players
         .map((e) => UserState(
-              id: 1,
-              user: e,
-              game: Game(
                 id: 1,
-                startedAt: DateTime.now(),
-                finishedAt: null,
-                resources: resources,
-                users: players,
-                usersCycle: players.map((e) => e.id).toList(),
-              ),
-              numberOfBricks: 0,
-              numberOfGrain: 0,
-              numberOfLumber: 0,
-              numberOfOre: 0,
-              numberOfWool: 0,
-            ))
+                user: e,
+                game: Game(
+                  id: 1,
+                  startedAt: DateTime.now(),
+                  finishedAt: null,
+                  resources: resources,
+                  users: players,
+                  usersCycle: players.map((e) => e.id).toList(),
+                ),
+                numberOfBricks: 0,
+                numberOfGrain: 0,
+                numberOfLumber: 0,
+                numberOfOre: 0,
+                numberOfWool: 0,
+                buildings: const {
+                  "settlements": [],
+                  "cities": [],
+                  "roads": [],
+                }))
         .toList();
+  }
+
+  @override
+  Future<GameStateModel> rollDice({
+    required int gameId,
+    required int dice1,
+    required int dice2,
+    required String userId,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return GameStateModel(
+      id: 1,
+      turnUser: turnPlayer,
+      turnState: TurnState.build,
+      dice1: 1,
+      dice2: 1,
+    );
   }
 }

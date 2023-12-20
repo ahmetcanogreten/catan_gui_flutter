@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
 import 'package:catan_gui_flutter/features/game/cubit/game_cubit.dart';
+import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/dice.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/in_game_player_entry.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
@@ -11,8 +12,6 @@ import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-enum TurnState { initial, rolling, build }
 
 class GamePage extends StatefulWidget {
   final int gameId;
@@ -24,8 +23,7 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   bool _isMyTurn = false;
-  TurnState _turnState = TurnState.initial;
-  List<int> _diceValues = [6, 6];
+  bool _isRolling = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +37,20 @@ class _GamePageState extends State<GamePage> {
             GameCubit()..startGetGameStateTimer(gameId: widget.gameId),
         child: BlocListener<GameCubit, GameState>(
           listener: (context, state) {
-            if (state is GameLoaded && !_isMyTurn) {
+            if (state is GameLoaded) {
               final userId =
                   (GetIt.I.get<AuthenticationCubit>().state as LoggedIn)
                       .user
                       .id;
-
               setState(() {
                 _isMyTurn = state.gameStateModel.turnUser.id == userId;
               });
+
+              if (_isRolling && state.gameStateModel.turnUser.id != userId) {
+                setState(() {
+                  _isRolling = false;
+                });
+              }
             }
           },
           child: CATScaffold(
@@ -82,6 +85,9 @@ class _GamePageState extends State<GamePage> {
                       final users = state.game.users;
                       final usersCycle = state.game.usersCycle;
                       final turnUser = state.gameStateModel.turnUser;
+                      final turnState = state.gameStateModel.turnState;
+
+                      final userStates = state.userStates;
 
                       return Padding(
                         padding: EdgeInsets.all(maxSize * 0.1),
@@ -104,11 +110,10 @@ class _GamePageState extends State<GamePage> {
                                             usersCycle[index] == turnUser.id,
                                         user: users.firstWhere((element) =>
                                             element.id == usersCycle[index]),
-                                        numberOfBricks: 1,
-                                        numberOfWool: 2,
-                                        numberOfOre: 3,
-                                        numberOfGrain: 4,
-                                        numberOfLumber: 5,
+                                        userState: userStates.firstWhere(
+                                            (element) =>
+                                                element.user.id ==
+                                                usersCycle[index]),
                                       );
                                     },
                                     itemCount: usersCycle.length,
@@ -127,8 +132,37 @@ class _GamePageState extends State<GamePage> {
                             Expanded(
                                 child: _isMyTurn
                                     ? Builder(builder: (context) {
-                                        switch (_turnState) {
-                                          case TurnState.initial:
+                                        switch (turnState) {
+                                          case TurnState.roll:
+                                            if (_isRolling) {
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    width: maxSize * 0.1,
+                                                    height: maxSize * 0.1,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth:
+                                                          maxSize * 0.01,
+                                                      color: Colors
+                                                          .orange.shade100,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                  Text(
+                                                    'Rolling',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                        fontSize:
+                                                            maxSize * 0.02),
+                                                  ),
+                                                ],
+                                              );
+                                            }
                                             return Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -143,29 +177,43 @@ class _GamePageState extends State<GamePage> {
                                                             .orange.shade500,
                                                         onPressed: () {
                                                           setState(() {
-                                                            _turnState =
-                                                                TurnState
-                                                                    .rolling;
+                                                            _isRolling = true;
                                                           });
 
                                                           Future.delayed(
                                                               const Duration(
                                                                   seconds: 2),
                                                               () {
-                                                            setState(() {
-                                                              _diceValues = [
+                                                            final dice1 =
                                                                 Random().nextInt(
                                                                         6) +
-                                                                    1,
+                                                                    1;
+                                                            final dice2 =
                                                                 Random().nextInt(
                                                                         6) +
-                                                                    1
-                                                              ];
+                                                                    1;
 
-                                                              _turnState =
-                                                                  TurnState
-                                                                      .build;
-                                                            });
+                                                            final userId = (GetIt
+                                                                        .I
+                                                                        .get<
+                                                                            AuthenticationCubit>()
+                                                                        .state
+                                                                    as LoggedIn)
+                                                                .user
+                                                                .id;
+
+                                                            context
+                                                                .read<
+                                                                    GameCubit>()
+                                                                .sendRollDice(
+                                                                    gameId: widget
+                                                                        .gameId,
+                                                                    dice1:
+                                                                        dice1,
+                                                                    dice2:
+                                                                        dice2,
+                                                                    userId:
+                                                                        userId);
                                                           });
                                                         },
                                                         child: Text(
@@ -179,33 +227,12 @@ class _GamePageState extends State<GamePage> {
                                                         ))),
                                               ],
                                             );
-                                          case TurnState.rolling:
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: maxSize * 0.1,
-                                                  height: maxSize * 0.1,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: maxSize * 0.01,
-                                                    color:
-                                                        Colors.orange.shade100,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                                Text(
-                                                  'Rolling',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                ),
-                                              ],
-                                            );
+
                                           case TurnState.build:
+                                            final dice1 = state
+                                                .gameStateModel.dice1 as int;
+                                            final dice2 = state
+                                                .gameStateModel.dice2 as int;
                                             return Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -220,30 +247,12 @@ class _GamePageState extends State<GamePage> {
                                                         SizedBox(
                                                           width: maxSize * 0.1,
                                                           child: Dice(
-                                                              value: _diceValues
-                                                                  .first),
+                                                              value: dice1),
                                                         ),
                                                         SizedBox(
                                                           width: maxSize * 0.1,
                                                           child: Dice(
-                                                              value: _diceValues
-                                                                  .last),
-                                                        ),
-                                                        Text(
-                                                          '=',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .orange
-                                                                  .shade100,
-                                                              fontSize:
-                                                                  maxSize *
-                                                                      0.05),
-                                                        ),
-                                                        SizedBox(
-                                                          width: maxSize * 0.1,
-                                                          child: Dice(
-                                                              value: _diceValues
-                                                                  .last),
+                                                              value: dice2),
                                                         ),
                                                       ],
                                                     )),
@@ -255,11 +264,12 @@ class _GamePageState extends State<GamePage> {
                                                   foregroundColor:
                                                       Colors.orange.shade500,
                                                   onPressed: () {
-                                                    setState(() {
-                                                      _isMyTurn = false;
-                                                      _turnState =
-                                                          TurnState.initial;
-                                                    });
+                                                    // TODO : Send end turn message to server
+                                                    // setState(() {
+                                                    //   _isMyTurn = false;
+                                                    //   _turnState =
+                                                    //       TurnState.initial;
+                                                    // });
                                                   },
                                                   child: Text(
                                                     "End Turn",

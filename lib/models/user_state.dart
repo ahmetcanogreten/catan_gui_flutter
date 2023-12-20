@@ -13,6 +13,8 @@ class UserState extends Equatable {
   final int numberOfOre;
   final int numberOfWool;
 
+  final Map buildings;
+
   const UserState({
     required this.id,
     required this.user,
@@ -22,6 +24,7 @@ class UserState extends Equatable {
     required this.numberOfLumber,
     required this.numberOfOre,
     required this.numberOfWool,
+    required this.buildings,
   });
 
   @override
@@ -41,11 +44,12 @@ class UserState extends Equatable {
       id: json['id'],
       user: User.fromJson(json['user']),
       game: Game.fromJson(json['game']),
-      numberOfBricks: json['numberOfBricks'],
+      numberOfBricks: json['numberOfBrick'],
       numberOfGrain: json['numberOfGrain'],
       numberOfLumber: json['numberOfLumber'],
       numberOfOre: json['numberOfOre'],
       numberOfWool: json['numberOfWool'],
+      buildings: json['buildings'],
     );
   }
 }

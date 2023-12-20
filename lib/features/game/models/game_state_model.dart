@@ -1,26 +1,50 @@
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:equatable/equatable.dart';
 
+enum TurnState { roll, build }
+
+TurnState turnStateFromJson(String turnState) {
+  switch (turnState) {
+    case 'ROLL':
+      return TurnState.roll;
+    case 'BUILD':
+      return TurnState.build;
+    default:
+      throw Exception('Unknown turnState: $turnState');
+  }
+}
+
 class GameStateModel extends Equatable {
   final int id;
   final User turnUser;
-  final Map? board;
+  final TurnState turnState;
+  final int? dice1;
+  final int? dice2;
 
-  const GameStateModel(
-      {required this.id, required this.turnUser, required this.board});
+  const GameStateModel({
+    required this.id,
+    required this.turnUser,
+    required this.turnState,
+    this.dice1,
+    this.dice2,
+  });
 
   @override
   List<Object> get props => [
         id,
         turnUser,
-        board ?? 0,
+        turnState,
+        dice1 ?? 0,
+        dice2 ?? 0,
       ];
 
   static GameStateModel fromJson(Map<String, dynamic> json) {
     return GameStateModel(
       id: json['id'] as int,
       turnUser: User.fromJson(json['turnUser'] as Map<String, dynamic>),
-      board: json['board'] as Map?,
+      turnState: turnStateFromJson(json['turnState'] as String),
+      dice1: json['dice1'] as int?,
+      dice2: json['dice2'] as int?,
     );
   }
 }

@@ -1,25 +1,18 @@
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:catan_gui_flutter/models/user.dart';
+import 'package:catan_gui_flutter/models/user_state.dart';
 import 'package:flutter/material.dart';
 
 class InGamePlayerEntry extends StatelessWidget {
   final bool isTurnPlayer;
   final User user;
-  final int numberOfBricks;
-  final int numberOfWool;
-  final int numberOfOre;
-  final int numberOfGrain;
-  final int numberOfLumber;
+  final UserState userState;
 
   const InGamePlayerEntry({
     super.key,
     required this.isTurnPlayer,
     required this.user,
-    required this.numberOfBricks,
-    required this.numberOfWool,
-    required this.numberOfOre,
-    required this.numberOfGrain,
-    required this.numberOfLumber,
+    required this.userState,
   });
 
   @override
@@ -58,7 +51,7 @@ class InGamePlayerEntry extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(child: Assets.images.hills.image()),
-                              Text(numberOfBricks.toString(),
+                              Text(userState.numberOfBricks.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: maxSize * 0.075)),
@@ -70,7 +63,7 @@ class InGamePlayerEntry extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(child: Assets.images.forest.image()),
-                              Text(numberOfLumber.toString(),
+                              Text(userState.numberOfLumber.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: maxSize * 0.075)),
@@ -82,7 +75,7 @@ class InGamePlayerEntry extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(child: Assets.images.mountains.image()),
-                              Text(numberOfOre.toString(),
+                              Text(userState.numberOfOre.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: maxSize * 0.075)),
@@ -94,7 +87,7 @@ class InGamePlayerEntry extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(child: Assets.images.fields.image()),
-                              Text(numberOfGrain.toString(),
+                              Text(userState.numberOfGrain.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: maxSize * 0.075)),
@@ -106,7 +99,7 @@ class InGamePlayerEntry extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(child: Assets.images.pasture.image()),
-                              Text(numberOfWool.toString(),
+                              Text(userState.numberOfWool.toString(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: maxSize * 0.075)),

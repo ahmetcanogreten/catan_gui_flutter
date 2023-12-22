@@ -193,6 +193,8 @@ class _GamePageState extends State<GamePage> {
                                   resources: orderedResourceTypes.toList(),
                                   numbers: orderedResourceNumbers.toList(),
                                   settlements: settlements,
+                                  roads: roads,
+                                  cities: cities,
                                 )),
                             SizedBox(width: maxSize * 0.1),
                             Expanded(

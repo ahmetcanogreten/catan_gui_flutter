@@ -37,11 +37,11 @@ List<Resource> createRandomResourceList() {
   newNumbers.insert(9, 7);
 
   final resources = [
-    for (var i = 0; i < numbers.length; i++)
+    for (var i = 0; i < newNumbers.length; i++)
       Resource(
         index: i,
-        type: resourceTypes[i],
-        number: numbers[i],
+        type: newResourceTypes[i],
+        number: newNumbers[i],
       ),
   ];
 

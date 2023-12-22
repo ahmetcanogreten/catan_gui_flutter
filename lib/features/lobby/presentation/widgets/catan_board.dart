@@ -65,7 +65,7 @@ class CatanBoard extends StatelessWidget {
 
       return SizedBox(
         width: hexagonWidth * 5,
-        height: hexagonHeight * 5,
+        height: hexagonHeight * 4,
         child: Transform.translate(
           offset: Offset(hexagonWidth, 0),
           child: Stack(

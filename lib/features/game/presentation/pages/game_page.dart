@@ -13,6 +13,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+Color getUserColor(int index) {
+  switch (index) {
+    case 0:
+      return Colors.red.shade900;
+    case 1:
+      return Colors.blue.shade900;
+    case 2:
+      return Colors.green.shade900;
+    case 3:
+      return Colors.yellow.shade900;
+    default:
+      return Colors.white;
+  }
+}
+
 class GamePage extends StatefulWidget {
   final int gameId;
   const GamePage({super.key, required this.gameId});
@@ -57,6 +72,7 @@ class _GamePageState extends State<GamePage> {
             body: Stack(fit: StackFit.expand, children: [
               Assets.images.catanBackground.image(fit: BoxFit.cover),
               Container(
+                  padding: EdgeInsets.all(maxSize * 0.02),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
                   ),
@@ -90,8 +106,9 @@ class _GamePageState extends State<GamePage> {
                       final userStates = state.userStates;
 
                       return Padding(
-                        padding: EdgeInsets.all(maxSize * 0.1),
+                        padding: EdgeInsets.all(maxSize * 0.1 * 0),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: BlocBuilder<GameCubit, GameState>(
@@ -105,15 +122,35 @@ class _GamePageState extends State<GamePage> {
                                       height: maxSize * 0.02,
                                     ),
                                     itemBuilder: (context, index) {
-                                      return InGamePlayerEntry(
-                                        isTurnPlayer:
-                                            usersCycle[index] == turnUser.id,
-                                        user: users.firstWhere((element) =>
-                                            element.id == usersCycle[index]),
-                                        userState: userStates.firstWhere(
-                                            (element) =>
-                                                element.user.id ==
-                                                usersCycle[index]),
+                                      return Row(
+                                        children: [
+                                          Expanded(
+                                            child:
+                                                usersCycle[index] == turnUser.id
+                                                    ? const FittedBox(
+                                                        child: Icon(
+                                                          Icons
+                                                              .arrow_forward_rounded,
+                                                          color: Colors.white,
+                                                        ),
+                                                      )
+                                                    : const SizedBox.shrink(),
+                                          ),
+                                          Expanded(
+                                            flex: 5,
+                                            child: InGamePlayerEntry(
+                                              color: getUserColor(index),
+                                              user: users.firstWhere(
+                                                  (element) =>
+                                                      element.id ==
+                                                      usersCycle[index]),
+                                              userState: userStates.firstWhere(
+                                                  (element) =>
+                                                      element.user.id ==
+                                                      usersCycle[index]),
+                                            ),
+                                          ),
+                                        ],
                                       );
                                     },
                                     itemCount: usersCycle.length,
@@ -121,9 +158,9 @@ class _GamePageState extends State<GamePage> {
                                 },
                               ),
                             ),
-                            SizedBox(width: maxSize * 0.1),
+                            SizedBox(width: maxSize * 0.05),
                             Expanded(
-                                flex: 2,
+                                flex: 3,
                                 child: CatanBoard(
                                   resources: orderedResourceTypes.toList(),
                                   numbers: orderedResourceNumbers.toList(),

@@ -26,18 +26,26 @@ List<ResourceType> resourceTypes = [
 
 List<int> numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 
-List<Resource> createRandomOrderedResourceList() {
+List<Resource> createRandomResourceList() {
   resourceTypes.shuffle();
   numbers.shuffle();
 
-  return [
+  final newResourceTypes = [...resourceTypes];
+  final newNumbers = [...numbers];
+
+  newResourceTypes.insert(9, ResourceType.desert);
+  newNumbers.insert(9, 7);
+
+  final resources = [
     for (var i = 0; i < numbers.length; i++)
       Resource(
         index: i,
         type: resourceTypes[i],
         number: numbers[i],
-      )
+      ),
   ];
+
+  return resources;
 }
 
 abstract interface class IRoomRepository {
@@ -53,17 +61,10 @@ abstract interface class IRoomRepository {
 class BackendRoomRepository implements IRoomRepository {
   @override
   Future<Room> createRoom({required String name}) async {
-    final orderedResources = [
-      for (var i = 0; i < numbers.length; i++)
-        {
-          "index": i,
-          "type": resourceTypes[i].toString().split('.').last,
-          "number": numbers[i],
-        }
-    ];
+    final resources = createRandomResourceList();
 
-    final response = await apiClient.post('/api/rooms',
-        data: {'name': name, "resources": orderedResources});
+    final response = await apiClient
+        .post('/api/rooms', data: {'name': name, "resources": resources});
 
     final data = response.data as Map<String, dynamic>;
 
@@ -81,7 +82,7 @@ class BackendRoomRepository implements IRoomRepository {
 
   @override
   Future<Room> shuffleResourcesAndNumbers({required int roomId}) async {
-    final resources = createRandomOrderedResourceList();
+    final resources = createRandomResourceList();
 
     final response = await apiClient.patch('/api/rooms/$roomId', data: {
       "resources": [for (var resource in resources) resource.toJson()]
@@ -155,7 +156,7 @@ class MockRoomRepository implements IRoomRepository {
 
   @override
   Future<Room> shuffleResourcesAndNumbers({required int roomId}) async {
-    room = room.copyWith(resources: createRandomOrderedResourceList());
+    room = room.copyWith(resources: createRandomResourceList());
 
     return room;
   }

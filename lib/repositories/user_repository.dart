@@ -62,7 +62,13 @@ class MockUserRepository implements IUserRepository {
     required String password,
   }) async {
     await Future.delayed(const Duration(seconds: 1));
-    return User(id: '1', firstName: 'John', lastName: 'Doe', email: email);
+    return User(
+      id: '1',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: email,
+      isBot: false,
+    );
   }
 
   @override
@@ -74,6 +80,11 @@ class MockUserRepository implements IUserRepository {
   }) async {
     await Future.delayed(const Duration(seconds: 1));
     return User(
-        id: '1', firstName: firstName, lastName: lastName, email: email);
+      id: '1',
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      isBot: false,
+    );
   }
 }

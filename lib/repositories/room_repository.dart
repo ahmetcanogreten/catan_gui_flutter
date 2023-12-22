@@ -115,6 +115,7 @@ class MockRoomRepository implements IRoomRepository {
       firstName: "Ahmet Can",
       lastName: "Öğreten",
       email: "ahmet.can@gmail.com",
+      isBot: false,
     );
 
     room = const Room(
@@ -174,6 +175,7 @@ class MockRoomRepository implements IRoomRepository {
         firstName: "Bot",
         lastName: "${usersCurrentlyInRoom.length}",
         email: "",
+        isBot: true,
       )
     ]);
 

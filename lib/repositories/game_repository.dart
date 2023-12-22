@@ -2,6 +2,7 @@ import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/resource.dart';
+import 'package:catan_gui_flutter/features/lobby/models/room.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
 
@@ -19,6 +20,8 @@ abstract interface class IGameRepository {
       required int dice1,
       required int dice2,
       required String userId});
+
+  Future<GameStateModel> endTurn({required int gameId, required String userId});
 }
 
 class BackendGameRepository implements IGameRepository {
@@ -62,6 +65,17 @@ class BackendGameRepository implements IGameRepository {
 
     return GameStateModel.fromJson(response.data);
   }
+
+  @override
+  Future<GameStateModel> endTurn({
+    required int gameId,
+    required String userId,
+  }) async {
+    final response =
+        await apiClient.post("/api/games/$gameId/end-turn?userId=$userId");
+
+    return GameStateModel.fromJson(response.data);
+  }
 }
 
 class MockGameRepository implements IGameRepository {
@@ -91,6 +105,7 @@ class MockGameRepository implements IGameRepository {
     firstName: "Ahmet Can",
     lastName: "Öğreten",
     email: "",
+    isBot: false,
   );
 
   List<User> players = [
@@ -99,27 +114,45 @@ class MockGameRepository implements IGameRepository {
       firstName: "Ahmet Can",
       lastName: "Öğreten",
       email: "",
+      isBot: true,
     ),
     const User(
       id: "2",
       firstName: "Bot",
       lastName: "1",
       email: "",
+      isBot: true,
     ),
     const User(
       id: "3",
       firstName: "Bot",
       lastName: "2",
       email: "",
+      isBot: true,
     ),
     const User(
       id: "4",
       firstName: "Bot",
       lastName: "3",
       email: "",
+      isBot: true,
     ),
   ];
   Map? board = {};
+
+  @override
+  Future<GameStateModel> endTurn({
+    required int gameId,
+    required String userId,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return GameStateModel(
+      id: 1,
+      turnUser: turnPlayer,
+      turnState: TurnState.roll,
+    );
+  }
 
   @override
   Future<Game> createGame({required int roomId}) async {
@@ -131,6 +164,15 @@ class MockGameRepository implements IGameRepository {
       resources: resources,
       users: players,
       usersCycle: players.map((e) => e.id).toList(),
+      room: Room(
+        id: 1,
+        name: "Room",
+        code: "123456",
+        gameStarted: false,
+        owner: players.first,
+        users: players,
+        resources: resources,
+      ),
     );
   }
 
@@ -145,6 +187,15 @@ class MockGameRepository implements IGameRepository {
       resources: resources,
       users: players,
       usersCycle: players.map((e) => e.id).toList(),
+      room: Room(
+        id: 1,
+        name: "Room",
+        code: "123456",
+        gameStarted: false,
+        owner: players.first,
+        users: players,
+        resources: resources,
+      ),
     );
   }
 
@@ -171,6 +222,15 @@ class MockGameRepository implements IGameRepository {
                   resources: resources,
                   users: players,
                   usersCycle: players.map((e) => e.id).toList(),
+                  room: Room(
+                    id: 1,
+                    name: "Room",
+                    code: "123456",
+                    gameStarted: false,
+                    owner: players.first,
+                    users: players,
+                    resources: resources,
+                  ),
                 ),
                 numberOfBricks: 0,
                 numberOfGrain: 0,

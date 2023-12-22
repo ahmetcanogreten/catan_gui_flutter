@@ -1,4 +1,5 @@
 import 'package:catan_gui_flutter/features/game/resource.dart';
+import 'package:catan_gui_flutter/features/lobby/models/room.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,6 +10,7 @@ class Game extends Equatable {
   final List<Resource> resources;
   final List<User> users;
   final List<String> usersCycle;
+  final Room room;
 
   const Game({
     required this.id,
@@ -17,6 +19,7 @@ class Game extends Equatable {
     required this.resources,
     required this.users,
     required this.usersCycle,
+    required this.room,
   });
 
   @override
@@ -27,6 +30,7 @@ class Game extends Equatable {
         resources,
         users,
         usersCycle,
+        room,
       ];
 
   Game copyWith({
@@ -44,6 +48,7 @@ class Game extends Equatable {
       resources: resources ?? this.resources,
       users: users ?? this.users,
       usersCycle: usersCycle ?? this.usersCycle,
+      room: room,
     );
   }
 
@@ -62,6 +67,7 @@ class Game extends Equatable {
             .toList(),
         usersCycle: (json['usersCycle'] as List<dynamic>)
             .map((e) => e as String)
-            .toList());
+            .toList(),
+        room: Room.fromJson(json['room'] as Map<String, dynamic>));
   }
 }

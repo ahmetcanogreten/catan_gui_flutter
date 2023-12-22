@@ -5,12 +5,14 @@ class User extends Equatable {
   final String firstName;
   final String lastName;
   final String email;
+  final bool isBot;
 
   const User({
     required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.isBot,
   });
 
   @override
@@ -22,6 +24,7 @@ class User extends Equatable {
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],
+      isBot: json['bot'],
     );
   }
 }

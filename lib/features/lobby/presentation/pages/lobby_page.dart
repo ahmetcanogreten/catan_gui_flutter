@@ -218,8 +218,9 @@ class _LobbyPageState extends State<LobbyPage> {
                                     children: [
                                       Expanded(
                                         child: CatanBoard(
-                                            resources: orderedResourceTypes,
-                                            numbers: orderedNumbers),
+                                          resources: orderedResourceTypes,
+                                          numbers: orderedNumbers,
+                                        ),
                                       ),
                                       SizedBox(height: maxSize * 0.05),
                                       Material(

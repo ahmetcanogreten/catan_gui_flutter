@@ -5,6 +5,7 @@ import 'package:catan_gui_flutter/features/game/cubit/game_cubit.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/dice.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/in_game_player_entry.dart';
+import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
@@ -105,6 +106,33 @@ class _GamePageState extends State<GamePage> {
 
                       final userStates = state.userStates;
 
+                      List<BuildingWithColor> settlements = [];
+                      List<BuildingWithColor> cities = [];
+                      List<BuildingWithColor> roads = [];
+
+                      for (final userState in userStates) {
+                        final user = userState.user;
+                        final buildings = userState.buildings;
+                        final index = usersCycle.indexOf(user.id);
+
+                        final userSettlements = buildings['settlement']
+                            .map((e) => BuildingWithColor(
+                                index: e, color: getUserColor(index)))
+                            .toList();
+                        final userCities = buildings['city']
+                            .map((e) => BuildingWithColor(
+                                index: e, color: getUserColor(index)))
+                            .toList();
+                        final userRoads = buildings['road']
+                            .map((e) => BuildingWithColor(
+                                index: e, color: getUserColor(index)))
+                            .toList();
+
+                        settlements = [...settlements, ...userSettlements];
+                        cities = [...cities, ...userCities];
+                        roads = [...roads, ...userRoads];
+                      }
+
                       return Padding(
                         padding: EdgeInsets.all(maxSize * 0.1 * 0),
                         child: Row(
@@ -164,6 +192,7 @@ class _GamePageState extends State<GamePage> {
                                 child: CatanBoard(
                                   resources: orderedResourceTypes.toList(),
                                   numbers: orderedResourceNumbers.toList(),
+                                  settlements: settlements,
                                 )),
                             SizedBox(width: maxSize * 0.1),
                             Expanded(

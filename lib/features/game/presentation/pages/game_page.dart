@@ -8,11 +8,13 @@ import 'package:catan_gui_flutter/features/game/presentation/widgets/in_game_pla
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
+import 'package:catan_gui_flutter/router.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 Color getUserColor(int index) {
   switch (index) {
@@ -437,7 +439,17 @@ class _GamePageState extends State<GamePage> {
                         ),
                       );
                     },
-                  ))
+                  )),
+              Positioned(
+                  right: maxSize * 0.02,
+                  top: maxSize * 0.02,
+                  child: IconButton(
+                      iconSize: maxSize * 0.05,
+                      color: Colors.white,
+                      icon: const Icon(Icons.logout_rounded),
+                      onPressed: () {
+                        context.go(homeRoute);
+                      }))
             ]),
           ),
         ),

@@ -4,11 +4,13 @@ import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart'
 import 'package:catan_gui_flutter/features/game/cubit/game_cubit.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/choose_settlement_and_road/presentation/widgets/choose_settlement_and_road_catan_board.dart';
+import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/dice.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/in_game_player_entry.dart';
 import 'package:catan_gui_flutter/features/game/util/get_user_color.dart';
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
+import 'package:catan_gui_flutter/features/lobby/presentation/widgets/resources_widget.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:catan_gui_flutter/router.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
@@ -29,6 +31,8 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   bool _isMyTurn = false;
   bool _isRolling = false;
+
+  bool _isBuildingCostsShown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +245,7 @@ class _GamePageState extends State<GamePage> {
                                         : [],
                                   );
                                 })),
-                            SizedBox(width: maxSize * 0.1),
+                            SizedBox(width: maxSize * 0.05),
                             Expanded(
                                 child: _isMyTurn
                                     ? Builder(builder: (context) {
@@ -568,13 +572,163 @@ class _GamePageState extends State<GamePage> {
               Positioned(
                   right: maxSize * 0.02,
                   top: maxSize * 0.02,
-                  child: IconButton(
-                      iconSize: maxSize * 0.05,
-                      color: Colors.white,
-                      icon: const Icon(Icons.logout_rounded),
-                      onPressed: () {
-                        context.go(homeRoute);
-                      }))
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade100,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        MouseRegion(
+                          onHover: (event) {
+                            setState(() {
+                              _isBuildingCostsShown = true;
+                            });
+                          },
+                          onExit: (event) {
+                            setState(() {
+                              _isBuildingCostsShown = false;
+                            });
+                          },
+                          child: IconButton(
+                              iconSize: maxSize * 0.05,
+                              color: Colors.blue,
+                              icon: Padding(
+                                padding: EdgeInsets.all(maxSize * 0.01),
+                                child: const Icon(Icons.info_outline),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isBuildingCostsShown = true;
+                                });
+                              }),
+                        ),
+                        IconButton(
+                            iconSize: maxSize * 0.05,
+                            color: Colors.red.shade900,
+                            icon: Padding(
+                              padding: EdgeInsets.all(maxSize * 0.01),
+                              child: const Icon(Icons.logout_rounded),
+                            ),
+                            onPressed: () {
+                              context.go(homeRoute);
+                            }),
+                      ],
+                    ),
+                  )),
+              if (_isBuildingCostsShown)
+                Positioned(
+                    right: maxSize * 0.02,
+                    top: maxSize * 0.12,
+                    child: Container(
+                      width: maxSize * 0.4,
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: EdgeInsets.all(maxSize * 0.02),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Building Costs',
+                            style: TextStyle(
+                              fontSize: maxSize * 0.02,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: maxSize * 0.02),
+                          Text('Road',
+                              style: TextStyle(
+                                fontSize: maxSize * 0.02,
+                              )),
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.forest)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.hills)),
+                              const Expanded(child: SizedBox.shrink()),
+                              Text('0 VP',
+                                  style: TextStyle(
+                                    fontSize: maxSize * 0.02,
+                                  )),
+                            ],
+                          ),
+                          Text('Settlement',
+                              style: TextStyle(
+                                fontSize: maxSize * 0.02,
+                              )),
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.forest)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.hills)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.fields)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child:
+                                      getResourceImage(ResourceType.pasture)),
+                              const Expanded(child: SizedBox.shrink()),
+                              Text('1 VP',
+                                  style: TextStyle(
+                                    fontSize: maxSize * 0.02,
+                                  )),
+                            ],
+                          ),
+                          Text('City',
+                              style: TextStyle(
+                                fontSize: maxSize * 0.02,
+                              )),
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.fields)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child: getResourceImage(ResourceType.fields)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child:
+                                      getResourceImage(ResourceType.mountains)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child:
+                                      getResourceImage(ResourceType.mountains)),
+                              SizedBox(
+                                  width: maxSize * 0.05,
+                                  height: maxSize * 0.05,
+                                  child:
+                                      getResourceImage(ResourceType.mountains)),
+                              const Expanded(child: SizedBox.shrink()),
+                              Text('2 VP',
+                                  style: TextStyle(
+                                    fontSize: maxSize * 0.02,
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )),
             ]),
           ),
         ),

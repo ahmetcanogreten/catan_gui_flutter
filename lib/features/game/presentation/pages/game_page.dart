@@ -218,8 +218,7 @@ class _GamePageState extends State<GamePage> {
                                             myUserState.numberOfBricks >= 1 &&
                                             myUserState.numberOfWool >= 1 &&
                                             myUserState.numberOfGrain >= 1)
-                                        ? state.gameStateModel
-                                            .availableSettlementsForTurnUser
+                                        ? state.userOptions.availableSettlements
                                             .map((e) => BuildingWithColor(
                                                 index: e,
                                                 color: getUserColor(myIndex)))
@@ -229,8 +228,7 @@ class _GamePageState extends State<GamePage> {
                                             turnState == TurnState.build &&
                                             myUserState.numberOfLumber >= 1 &&
                                             myUserState.numberOfBricks >= 1)
-                                        ? state.gameStateModel
-                                            .availableRoadsForTurnUser
+                                        ? state.userOptions.availableRoads
                                             .map((e) => BuildingWithColor(
                                                 index: e,
                                                 color: getUserColor(myIndex)))
@@ -240,8 +238,7 @@ class _GamePageState extends State<GamePage> {
                                             turnState == TurnState.build &&
                                             myUserState.numberOfGrain >= 2 &&
                                             myUserState.numberOfOre >= 3)
-                                        ? state.gameStateModel
-                                            .availableCitiesForTurnUser
+                                        ? state.userOptions.availableCities
                                             .map((e) => BuildingWithColor(
                                                 index: e,
                                                 color: getUserColor(myIndex)))

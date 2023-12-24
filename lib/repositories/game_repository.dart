@@ -2,6 +2,7 @@ import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/models/resource.dart';
+import 'package:catan_gui_flutter/features/game/models/user_options.dart';
 import 'package:catan_gui_flutter/features/lobby/models/room.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
@@ -33,9 +34,23 @@ abstract interface class IGameRepository {
 
   Future<GameStateModel> buildCity(
       {required int gameId, required int cityIndex, required String userId});
+
+  Future<UserOptions> getUserOptions(
+      {required int gameId, required String userId});
 }
 
 class BackendGameRepository implements IGameRepository {
+  @override
+  Future<UserOptions> getUserOptions({
+    required int gameId,
+    required String userId,
+  }) async {
+    final response = await apiClient.get("/api/games/$gameId/user-options",
+        queryParameters: {"userId": userId});
+
+    return UserOptions.fromJson(response.data);
+  }
+
   @override
   Future<GameStateModel> buildCity({
     required int gameId,
@@ -188,6 +203,20 @@ class MockGameRepository implements IGameRepository {
   Map? board = {};
 
   @override
+  Future<UserOptions> getUserOptions({
+    required int gameId,
+    required String userId,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return UserOptions(
+      availableRoads: [1, 2, 3],
+      availableSettlements: [1, 2, 3],
+      availableCities: [1, 2, 3],
+    );
+  }
+
+  @override
   Future<GameStateModel> buildCity({
     required int gameId,
     required int cityIndex,
@@ -199,9 +228,6 @@ class MockGameRepository implements IGameRepository {
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.roll,
-      availableCitiesForTurnUser: [],
-      availableRoadsForTurnUser: [],
-      availableSettlementsForTurnUser: [],
     );
   }
 
@@ -217,9 +243,6 @@ class MockGameRepository implements IGameRepository {
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.roll,
-      availableCitiesForTurnUser: [],
-      availableRoadsForTurnUser: [],
-      availableSettlementsForTurnUser: [],
     );
   }
 
@@ -235,9 +258,6 @@ class MockGameRepository implements IGameRepository {
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.roll,
-      availableCitiesForTurnUser: [],
-      availableRoadsForTurnUser: [],
-      availableSettlementsForTurnUser: [],
     );
   }
 
@@ -252,9 +272,6 @@ class MockGameRepository implements IGameRepository {
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.roll,
-      availableCitiesForTurnUser: [],
-      availableRoadsForTurnUser: [],
-      availableSettlementsForTurnUser: [],
     );
   }
 
@@ -311,9 +328,6 @@ class MockGameRepository implements IGameRepository {
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.roll,
-      availableCitiesForTurnUser: [],
-      availableRoadsForTurnUser: [],
-      availableSettlementsForTurnUser: [],
     );
   }
 
@@ -364,9 +378,6 @@ class MockGameRepository implements IGameRepository {
     await Future.delayed(const Duration(seconds: 1));
 
     return GameStateModel(
-      availableCitiesForTurnUser: [],
-      availableRoadsForTurnUser: [],
-      availableSettlementsForTurnUser: [],
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.build,

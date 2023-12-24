@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
+import 'package:catan_gui_flutter/features/game/models/user_options.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
 import 'package:catan_gui_flutter/repositories/game_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -81,6 +82,11 @@ class GameCubit extends Cubit<GameState> {
         gameId: gameId,
       );
 
+      final userOptions = await _gameRepository.getUserOptions(
+        gameId: gameId,
+        userId: (GetIt.I.get<AuthenticationCubit>().state as LoggedIn).user.id,
+      );
+
       if (isClosed) {
         return;
       }
@@ -92,7 +98,11 @@ class GameCubit extends Cubit<GameState> {
       }
 
       emit(GameLoaded(
-          game: game, gameStateModel: gameStateModel, userStates: userStates));
+        game: game,
+        gameStateModel: gameStateModel,
+        userStates: userStates,
+        userOptions: userOptions,
+      ));
     });
   }
 

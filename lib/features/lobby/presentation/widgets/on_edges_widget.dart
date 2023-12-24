@@ -22,8 +22,8 @@ class OnEdgesWidget extends StatelessWidget {
         // Road
         // 0-th index
         Positioned(
-          left: -1 / 2 * hexagonWidth / 2,
-          top: -3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + -3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -31,8 +31,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 1-th index
         Positioned(
-          left: 1 / 2 * hexagonWidth / 2,
-          top: -3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + -3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -40,8 +40,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 2-th index
         Positioned(
-          left: 3 / 2 * hexagonWidth / 2,
-          top: -3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + -3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -49,8 +49,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 3-th index
         Positioned(
-          left: 5 / 2 * hexagonWidth / 2,
-          top: -3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + -3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -58,8 +58,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 4-th index
         Positioned(
-          left: 7 / 2 * hexagonWidth / 2,
-          top: -3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 7 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + -3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -67,8 +67,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 5-th index
         Positioned(
-          left: 9 / 2 * hexagonWidth / 2,
-          top: -3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 9 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + -3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -76,8 +76,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 6-th index
         Positioned(
-          left: -2 / 2 * hexagonWidth / 2,
-          top: 0 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -2 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 0 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -85,8 +85,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 7-th index
         Positioned(
-          left: 2 / 2 * hexagonWidth / 2,
-          top: 0 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 2 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 0 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -94,8 +94,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 8-th index
         Positioned(
-          left: 6 / 2 * hexagonWidth / 2,
-          top: 0 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 6 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 0 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -103,8 +103,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 9-th index
         Positioned(
-          left: 10 / 2 * hexagonWidth / 2,
-          top: 0 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 10 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 0 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -112,8 +112,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 10-th index
         Positioned(
-          left: -3 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -121,8 +121,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 11-th index
         Positioned(
-          left: -1 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -130,8 +130,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 12-th index
         Positioned(
-          left: 1 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -139,8 +139,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 13-th index
         Positioned(
-          left: 3 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -148,8 +148,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 14-th index
         Positioned(
-          left: 5 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -157,8 +157,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 15-th index
         Positioned(
-          left: 7 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 7 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -166,8 +166,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 16-th index
         Positioned(
-          left: 9 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 9 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -175,8 +175,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 17-th index
         Positioned(
-          left: 11 / 2 * hexagonWidth / 2,
-          top: 3 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 11 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 3 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -184,8 +184,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 18-th index
         Positioned(
-          left: -4 / 2 * hexagonWidth / 2,
-          top: 6 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -4 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 6 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -193,8 +193,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 19-th index
         Positioned(
-          left: 0 / 2 * hexagonWidth / 2,
-          top: 6 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 0 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 6 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -202,8 +202,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 20-th index
         Positioned(
-          left: 4 / 2 * hexagonWidth / 2,
-          top: 6 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 4 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 6 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -211,8 +211,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 21-th index
         Positioned(
-          left: 8 / 2 * hexagonWidth / 2,
-          top: 6 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 8 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 6 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -220,8 +220,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 22-th index
         Positioned(
-          left: 12 / 2 * hexagonWidth / 2,
-          top: 6 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 12 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 6 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -229,8 +229,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 23-th index
         Positioned(
-          left: -5 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -238,8 +238,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 24-th index
         Positioned(
-          left: -3 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -247,8 +247,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 25-th index
         Positioned(
-          left: -1 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -256,8 +256,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 26-th index
         Positioned(
-          left: 1 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -265,8 +265,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 27-th index
         Positioned(
-          left: 3 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -274,8 +274,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 28-th index
         Positioned(
-          left: 5 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -283,8 +283,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 29-th index
         Positioned(
-          left: 7 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 7 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -292,8 +292,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 30-th index
         Positioned(
-          left: 9 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 9 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -301,8 +301,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 31-th index
         Positioned(
-          left: 11 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 11 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -310,8 +310,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 32-th index
         Positioned(
-          left: 13 / 2 * hexagonWidth / 2,
-          top: 9 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 13 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 9 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -319,8 +319,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 33-th index
         Positioned(
-          left: -6 / 2 * hexagonWidth / 2,
-          top: 12 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -6 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 12 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -328,8 +328,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 34-th index
         Positioned(
-          left: -2 / 2 * hexagonWidth / 2,
-          top: 12 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -2 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 12 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -337,8 +337,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 35-th index
         Positioned(
-          left: 2 / 2 * hexagonWidth / 2,
-          top: 12 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 2 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 12 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -346,8 +346,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 36-th index
         Positioned(
-          left: 6 / 2 * hexagonWidth / 2,
-          top: 12 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 6 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 12 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -355,8 +355,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 37-th index
         Positioned(
-          left: 10 / 2 * hexagonWidth / 2,
-          top: 12 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 10 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 12 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -364,8 +364,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 38-th index
         Positioned(
-          left: 14 / 2 * hexagonWidth / 2,
-          top: 12 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 14 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 12 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -373,8 +373,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 39-th index
         Positioned(
-          left: -5 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -382,8 +382,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 40-th index
         Positioned(
-          left: -3 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -391,8 +391,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 41-th index
         Positioned(
-          left: -1 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -400,8 +400,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 42-th index
         Positioned(
-          left: 1 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -409,8 +409,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 43-th index
         Positioned(
-          left: 3 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -418,8 +418,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 44-th index
         Positioned(
-          left: 5 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -427,8 +427,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 45-th index
         Positioned(
-          left: 7 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 7 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -436,8 +436,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 46-th index
         Positioned(
-          left: 9 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 9 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -445,8 +445,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 47-th index
         Positioned(
-          left: 11 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 11 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -454,8 +454,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 48-th index
         Positioned(
-          left: 13 / 2 * hexagonWidth / 2,
-          top: 15 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 13 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 15 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -463,8 +463,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 49-th index
         Positioned(
-          left: -4 / 2 * hexagonWidth / 2,
-          top: 18 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -4 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 18 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -472,8 +472,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 50-th index
         Positioned(
-          left: 0 / 2 * hexagonWidth / 2,
-          top: 18 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 0 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 18 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -481,8 +481,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 51-th index
         Positioned(
-          left: 4 / 2 * hexagonWidth / 2,
-          top: 18 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 4 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 18 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -490,8 +490,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 52-th index
         Positioned(
-          left: 8 / 2 * hexagonWidth / 2,
-          top: 18 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 8 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 18 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -499,8 +499,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 53-th index
         Positioned(
-          left: 12 / 2 * hexagonWidth / 2,
-          top: 18 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 12 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 18 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -508,8 +508,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 54-th index
         Positioned(
-          left: -3 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -517,8 +517,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 55-th index
         Positioned(
-          left: -1 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -526,8 +526,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 56-th index
         Positioned(
-          left: 1 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -535,8 +535,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 57-th index
         Positioned(
-          left: 3 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -544,8 +544,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 58-th index
         Positioned(
-          left: 5 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -553,8 +553,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 59-th index
         Positioned(
-          left: 7 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 7 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -562,8 +562,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 60-th index
         Positioned(
-          left: 9 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 9 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -571,8 +571,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 61-th index
         Positioned(
-          left: 11 / 2 * hexagonWidth / 2,
-          top: 21 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 11 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 21 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -580,8 +580,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 62-th index
         Positioned(
-          left: -2 / 2 * hexagonWidth / 2,
-          top: 24 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -2 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 24 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -589,8 +589,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 63
         Positioned(
-          left: 2 / 2 * hexagonWidth / 2,
-          top: 24 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 2 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 24 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -598,8 +598,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 64
         Positioned(
-          left: 6 / 2 * hexagonWidth / 2,
-          top: 24 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 6 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 24 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -607,8 +607,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 65
         Positioned(
-          left: 10 / 2 * hexagonWidth / 2,
-          top: 24 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 10 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 24 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -616,8 +616,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 66
         Positioned(
-          left: -1 / 2 * hexagonWidth / 2,
-          top: 27 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + -1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 27 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -625,8 +625,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 67
         Positioned(
-          left: 1 / 2 * hexagonWidth / 2,
-          top: 27 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 1 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 27 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -634,8 +634,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 68
         Positioned(
-          left: 3 / 2 * hexagonWidth / 2,
-          top: 27 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 3 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 27 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -643,8 +643,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 69
         Positioned(
-          left: 5 / 2 * hexagonWidth / 2,
-          top: 27 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 5 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 27 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -652,8 +652,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 70
         Positioned(
-          left: 7 / 2 * hexagonWidth / 2,
-          top: 27 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 7 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 27 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,
@@ -661,8 +661,8 @@ class OnEdgesWidget extends StatelessWidget {
         ),
         // 71
         Positioned(
-          left: 9 / 2 * hexagonWidth / 2,
-          top: 27 / 2 * hexagonHeight / 4,
+          left: hexagonWidth * 1.5 + 9 / 2 * hexagonWidth / 2,
+          top: hexagonHeight * 0.5 + 27 / 2 * hexagonHeight / 4,
           child: SizedBox(
               width: hexagonWidth,
               height: hexagonHeight,

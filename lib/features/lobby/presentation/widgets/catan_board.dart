@@ -42,89 +42,57 @@ class CatanBoard extends StatelessWidget {
 
       final hexagonHeight = maxSize * 0.2;
       final hexagonWidth = hexagonHeight / 2 * 1.732050808;
-      final hexagonEdge = hexagonHeight / 2;
 
       final verticalShift = hexagonHeight * 0.75;
       final horizontalShift = hexagonWidth;
 
-      final catanWidth = hexagonWidth * 5;
-      final catanHeight = hexagonHeight * 3 + hexagonEdge * 2;
-
-      return Transform.translate(
-        offset: Offset((constraints.maxWidth - catanWidth) / 2,
-            (constraints.maxHeight - catanHeight) / 2),
-        child: Stack(
-          children: [
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: ResourcesWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                horizontalShift: horizontalShift,
-                verticalShift: verticalShift,
-                resources: resources,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: ResourceNumbersWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                horizontalShift: horizontalShift,
-                verticalShift: verticalShift,
-                numbers: numbers,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: RoadsWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                roads: roads,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: SettlementsWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                settlements: settlements,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: CitiesWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                cities: cities,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: CanBeBoughtRoadsWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                roads: availableRoads,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: CanBeBoughtSettlementsWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                canBeBoughtSettlements: availableSettlements,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(hexagonWidth, 0),
-              child: CanBeBoughtCitiesWidget(
-                hexagonWidth: hexagonWidth,
-                hexagonHeight: hexagonHeight,
-                canBeBoughtCities: availableCities,
-              ),
-            ),
-          ],
-        ),
+      return Stack(
+        children: [
+          ResourcesWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            horizontalShift: horizontalShift,
+            verticalShift: verticalShift,
+            resources: resources,
+          ),
+          ResourceNumbersWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            horizontalShift: horizontalShift,
+            verticalShift: verticalShift,
+            numbers: numbers,
+          ),
+          RoadsWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            roads: roads,
+          ),
+          SettlementsWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            settlements: settlements,
+          ),
+          CitiesWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            cities: cities,
+          ),
+          CanBeBoughtRoadsWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            roads: availableRoads,
+          ),
+          CanBeBoughtSettlementsWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            canBeBoughtSettlements: availableSettlements,
+          ),
+          CanBeBoughtCitiesWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            canBeBoughtCities: availableCities,
+          ),
+        ],
       );
     });
   }

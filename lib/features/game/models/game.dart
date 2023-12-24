@@ -1,4 +1,4 @@
-import 'package:catan_gui_flutter/features/game/resource.dart';
+import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/lobby/models/room.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:equatable/equatable.dart';

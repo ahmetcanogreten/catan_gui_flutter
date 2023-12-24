@@ -108,4 +108,28 @@ class GameCubit extends Cubit<GameState> {
   void endTurn({required int gameId, required String userId}) async {
     await _gameRepository.endTurn(gameId: gameId, userId: userId);
   }
+
+  void buildRoad({
+    required String userId,
+    required int roadIndex,
+  }) async {
+    await _gameRepository.buildRoad(
+        gameId: game.id, userId: userId, roadIndex: roadIndex);
+  }
+
+  void buildSettlement({
+    required String userId,
+    required int settlementIndex,
+  }) async {
+    await _gameRepository.buildSettlement(
+        gameId: game.id, userId: userId, settlementIndex: settlementIndex);
+  }
+
+  void buildCity({
+    required String userId,
+    required int cityIndex,
+  }) async {
+    await _gameRepository.buildCity(
+        gameId: game.id, userId: userId, cityIndex: cityIndex);
+  }
 }

@@ -13,7 +13,9 @@ class UserState extends Equatable {
   final int numberOfOre;
   final int numberOfWool;
 
-  final Map buildings;
+  final List<int> roads;
+  final List<int> settlements;
+  final List<int> cities;
 
   const UserState({
     required this.id,
@@ -24,7 +26,9 @@ class UserState extends Equatable {
     required this.numberOfLumber,
     required this.numberOfOre,
     required this.numberOfWool,
-    required this.buildings,
+    required this.roads,
+    required this.settlements,
+    required this.cities,
   });
 
   @override
@@ -37,6 +41,9 @@ class UserState extends Equatable {
         numberOfLumber,
         numberOfOre,
         numberOfWool,
+        roads,
+        settlements,
+        cities,
       ];
 
   static UserState fromJson(Map<String, dynamic> json) {
@@ -49,7 +56,9 @@ class UserState extends Equatable {
       numberOfLumber: json['numberOfLumber'],
       numberOfOre: json['numberOfOre'],
       numberOfWool: json['numberOfWool'],
-      buildings: json['buildings'],
+      roads: (json['roads'] as List).cast<int>(),
+      settlements: (json['settlements'] as List).cast<int>(),
+      cities: (json['cities'] as List).cast<int>(),
     );
   }
 }

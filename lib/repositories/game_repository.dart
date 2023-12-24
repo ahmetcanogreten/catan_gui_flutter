@@ -1,7 +1,7 @@
 import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
-import 'package:catan_gui_flutter/features/game/resource.dart';
+import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/lobby/models/room.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
@@ -22,9 +22,56 @@ abstract interface class IGameRepository {
       required String userId});
 
   Future<GameStateModel> endTurn({required int gameId, required String userId});
+
+  Future<GameStateModel> buildRoad(
+      {required int gameId, required int roadIndex, required String userId});
+
+  Future<GameStateModel> buildSettlement(
+      {required int gameId,
+      required int settlementIndex,
+      required String userId});
+
+  Future<GameStateModel> buildCity(
+      {required int gameId, required int cityIndex, required String userId});
 }
 
 class BackendGameRepository implements IGameRepository {
+  @override
+  Future<GameStateModel> buildCity({
+    required int gameId,
+    required int cityIndex,
+    required String userId,
+  }) async {
+    final response = await apiClient.post("/api/games/$gameId/build-city",
+        data: {"userId": userId, "index": cityIndex});
+
+    return GameStateModel.fromJson(response.data);
+  }
+
+  @override
+  Future<GameStateModel> buildSettlement({
+    required int gameId,
+    required int settlementIndex,
+    required String userId,
+  }) async {
+    final response = await apiClient.post("/api/games/$gameId/build-settlement",
+        data: {"userId": userId, "index": settlementIndex});
+
+    return GameStateModel.fromJson(response.data);
+  }
+
+  @override
+  Future<GameStateModel> buildRoad({
+    required int gameId,
+    required int roadIndex,
+    required String userId,
+  }) async {
+    final response = await apiClient.post("/api/games/$gameId/build-road",
+        data: {"userId": userId, "index": roadIndex});
+
+    return GameStateModel.fromJson(response.data);
+  }
+
   @override
   Future<Game> createGame({required int roomId}) async {
     final response = await apiClient.post("/api/games?roomId=$roomId");
@@ -141,6 +188,60 @@ class MockGameRepository implements IGameRepository {
   Map? board = {};
 
   @override
+  Future<GameStateModel> buildCity({
+    required int gameId,
+    required int cityIndex,
+    required String userId,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return GameStateModel(
+      id: 1,
+      turnUser: turnPlayer,
+      turnState: TurnState.roll,
+      availableCitiesForTurnUser: [],
+      availableRoadsForTurnUser: [],
+      availableSettlementsForTurnUser: [],
+    );
+  }
+
+  @override
+  Future<GameStateModel> buildSettlement({
+    required int gameId,
+    required int settlementIndex,
+    required String userId,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return GameStateModel(
+      id: 1,
+      turnUser: turnPlayer,
+      turnState: TurnState.roll,
+      availableCitiesForTurnUser: [],
+      availableRoadsForTurnUser: [],
+      availableSettlementsForTurnUser: [],
+    );
+  }
+
+  @override
+  Future<GameStateModel> buildRoad({
+    required int gameId,
+    required int roadIndex,
+    required String userId,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    return GameStateModel(
+      id: 1,
+      turnUser: turnPlayer,
+      turnState: TurnState.roll,
+      availableCitiesForTurnUser: [],
+      availableRoadsForTurnUser: [],
+      availableSettlementsForTurnUser: [],
+    );
+  }
+
+  @override
   Future<GameStateModel> endTurn({
     required int gameId,
     required String userId,
@@ -151,6 +252,9 @@ class MockGameRepository implements IGameRepository {
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.roll,
+      availableCitiesForTurnUser: [],
+      availableRoadsForTurnUser: [],
+      availableSettlementsForTurnUser: [],
     );
   }
 
@@ -204,7 +308,13 @@ class MockGameRepository implements IGameRepository {
     await Future.delayed(const Duration(seconds: 1));
 
     return GameStateModel(
-        id: 1, turnUser: turnPlayer, turnState: TurnState.roll);
+      id: 1,
+      turnUser: turnPlayer,
+      turnState: TurnState.roll,
+      availableCitiesForTurnUser: [],
+      availableRoadsForTurnUser: [],
+      availableSettlementsForTurnUser: [],
+    );
   }
 
   @override
@@ -213,35 +323,34 @@ class MockGameRepository implements IGameRepository {
 
     return players
         .map((e) => UserState(
+              id: 1,
+              user: e,
+              game: Game(
                 id: 1,
-                user: e,
-                game: Game(
+                startedAt: DateTime.now(),
+                finishedAt: null,
+                resources: resources,
+                users: players,
+                usersCycle: players.map((e) => e.id).toList(),
+                room: Room(
                   id: 1,
-                  startedAt: DateTime.now(),
-                  finishedAt: null,
-                  resources: resources,
+                  name: "Room",
+                  code: "123456",
+                  gameStarted: false,
+                  owner: players.first,
                   users: players,
-                  usersCycle: players.map((e) => e.id).toList(),
-                  room: Room(
-                    id: 1,
-                    name: "Room",
-                    code: "123456",
-                    gameStarted: false,
-                    owner: players.first,
-                    users: players,
-                    resources: resources,
-                  ),
+                  resources: resources,
                 ),
-                numberOfBricks: 0,
-                numberOfGrain: 0,
-                numberOfLumber: 0,
-                numberOfOre: 0,
-                numberOfWool: 0,
-                buildings: const {
-                  "settlements": [],
-                  "cities": [],
-                  "roads": [],
-                }))
+              ),
+              numberOfBricks: 0,
+              numberOfGrain: 0,
+              numberOfLumber: 0,
+              numberOfOre: 0,
+              numberOfWool: 0,
+              roads: const [],
+              settlements: const [],
+              cities: const [],
+            ))
         .toList();
   }
 
@@ -255,6 +364,9 @@ class MockGameRepository implements IGameRepository {
     await Future.delayed(const Duration(seconds: 1));
 
     return GameStateModel(
+      availableCitiesForTurnUser: [],
+      availableRoadsForTurnUser: [],
+      availableSettlementsForTurnUser: [],
       id: 1,
       turnUser: turnPlayer,
       turnState: TurnState.build,

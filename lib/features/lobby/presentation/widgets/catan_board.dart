@@ -1,3 +1,5 @@
+import 'package:catan_gui_flutter/features/choose_settlement_and_road/presentation/widgets/can_be_selected_roads_widget.dart';
+import 'package:catan_gui_flutter/features/choose_settlement_and_road/presentation/widgets/can_be_selected_settlements_widget.dart';
 import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/can_be_bought_cities_widget.dart';
@@ -21,6 +23,9 @@ class CatanBoard extends StatelessWidget {
   final List<BuildingWithColor> availableRoads;
   final List<BuildingWithColor> availableCities;
 
+  final List<BuildingWithColor> canBeSelectedSettlements;
+  final List<BuildingWithColor> canBeSelectedRoads;
+
   const CatanBoard({
     super.key,
     required this.resources,
@@ -31,6 +36,8 @@ class CatanBoard extends StatelessWidget {
     this.availableSettlements = const [],
     this.availableRoads = const [],
     this.availableCities = const [],
+    this.canBeSelectedSettlements = const [],
+    this.canBeSelectedRoads = const [],
   });
 
   @override
@@ -91,6 +98,16 @@ class CatanBoard extends StatelessWidget {
             hexagonWidth: hexagonWidth,
             hexagonHeight: hexagonHeight,
             canBeBoughtCities: availableCities,
+          ),
+          CanBeSelectedSettlementsWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            canBeSelectedSettlements: canBeSelectedSettlements,
+          ),
+          CanBeSelectedRoadsWidget(
+            hexagonWidth: hexagonWidth,
+            hexagonHeight: hexagonHeight,
+            roads: canBeSelectedRoads,
           ),
         ],
       );

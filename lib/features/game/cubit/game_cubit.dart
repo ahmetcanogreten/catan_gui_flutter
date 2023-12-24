@@ -42,6 +42,12 @@ class GameCubit extends Cubit<GameState> {
     lastPlayedBotUserId = gameStateModel.turnUser.id;
 
     switch (gameStateModel.turnState) {
+      case TurnState.choose_1:
+      case TurnState.choose_2:
+        lastPlayedBotTurnState = gameStateModel.turnState;
+        await _gameRepository.chooseSettlementAndRoadForBot(
+            gameId: game.id, userId: gameStateModel.turnUser.id);
+        break;
       case TurnState.roll:
         lastPlayedBotTurnState = TurnState.roll;
         final dice1 = Random().nextInt(6) + 1;

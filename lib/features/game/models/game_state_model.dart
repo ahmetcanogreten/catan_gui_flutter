@@ -1,10 +1,14 @@
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:equatable/equatable.dart';
 
-enum TurnState { roll, build }
+enum TurnState { choose_1, choose_2, roll, build }
 
 TurnState turnStateFromJson(String turnState) {
   switch (turnState) {
+    case 'CHOOSE_1':
+      return TurnState.choose_1;
+    case 'CHOOSE_2':
+      return TurnState.choose_2;
     case 'ROLL':
       return TurnState.roll;
     case 'BUILD':

@@ -36,7 +36,7 @@ class _CatanAppState extends State<CatanApp> {
   void registerMockRepositories() {
     GetIt.I.registerSingleton<IUserRepository>(MockUserRepository());
     GetIt.I.registerSingleton<IRoomRepository>(MockRoomRepository());
-    GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
+    // GetIt.I.registerSingleton<IGameRepository>(MockGameRepository());
   }
 
   void registerBackendRepositories() {

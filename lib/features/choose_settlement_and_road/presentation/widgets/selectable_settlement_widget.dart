@@ -1,40 +1,35 @@
-import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
-import 'package:catan_gui_flutter/features/game/cubit/game_cubit.dart';
+import 'package:catan_gui_flutter/features/choose_settlement_and_road/cubit/choose_settlement_and_road_cubit.dart';
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
-import 'package:catan_gui_flutter/features/lobby/presentation/widgets/road_widget.dart';
+import 'package:catan_gui_flutter/features/lobby/presentation/widgets/settlement_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_im_animations/im_animations.dart';
 
-class ConditionalRotatedRoadWidget extends StatefulWidget {
-  final bool canBeBought;
-  final List<BuildingWithColor> roads;
+class SelectableSettlementWidget extends StatefulWidget {
+  final List<BuildingWithColor> settlements;
   final int index;
-  final double angle;
-  const ConditionalRotatedRoadWidget({
+  const SelectableSettlementWidget({
     super.key,
-    this.canBeBought = false,
-    required this.roads,
+    required this.settlements,
     required this.index,
-    required this.angle,
   });
 
   @override
-  State<ConditionalRotatedRoadWidget> createState() =>
-      _ConditionalRotatedRoadWidgetState();
+  State<SelectableSettlementWidget> createState() =>
+      SelectableSettlementWidgetState();
 }
 
-class _ConditionalRotatedRoadWidgetState
-    extends State<ConditionalRotatedRoadWidget> {
+class SelectableSettlementWidgetState
+    extends State<SelectableSettlementWidget> {
   bool _isClicked = false;
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.roads.any((element) => element.index == widget.index)) {
+    if (!widget.settlements.any((element) => element.index == widget.index)) {
       return const SizedBox.shrink();
     }
 
-    Widget roadWidget = LayoutBuilder(builder: (context, constraints) {
+    Widget settlementWidget = LayoutBuilder(builder: (context, constraints) {
       final maxSize = constraints.maxHeight > constraints.maxWidth
           ? constraints.maxHeight
           : constraints.maxWidth;
@@ -42,39 +37,33 @@ class _ConditionalRotatedRoadWidgetState
       return SizedBox(
         width: maxSize * 10,
         height: maxSize * 10,
-        child: Transform.rotate(
-          angle: widget.angle,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: widget.canBeBought
-                    ? () {
-                        setState(() {
-                          _isClicked = true;
-                        });
-                      }
-                    : null,
-                child: RoadWidget(
-                    width: maxSize * 0.5,
-                    length: maxSize * 0.05,
-                    color: widget.roads
-                        .firstWhere((element) => element.index == widget.index)
-                        .color),
-              ),
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _isClicked = true;
+                });
+              },
+              child: SettlementWidget(
+                  size: maxSize * 0.3,
+                  color: widget.settlements
+                      .firstWhere((element) => element.index == widget.index)
+                      .color),
+            ),
+          ],
         ),
       );
     });
 
-    if (widget.canBeBought) {
-      roadWidget = Stack(
+    settlementWidget = Center(
+      child: Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
           HeartBeat(
-            child: Opacity(opacity: 0.5, child: roadWidget),
+            child: Opacity(opacity: 0.5, child: settlementWidget),
           ),
           if (_isClicked)
             Transform.translate(
@@ -98,13 +87,10 @@ class _ConditionalRotatedRoadWidgetState
                           color: Colors.green,
                           onPressed: () {
                             setState(() {
-                              context.read<GameCubit>().buildRoad(
-                                    userId: (context
-                                            .read<AuthenticationCubit>()
-                                            .state as LoggedIn)
-                                        .user
-                                        .id,
-                                    roadIndex: widget.index,
+                              context
+                                  .read<ChooseSettlementAndRoadCubit>()
+                                  .chooseSettlement(
+                                    settlementIndex: widget.index,
                                   );
                               _isClicked = false;
                             });
@@ -124,9 +110,9 @@ class _ConditionalRotatedRoadWidgetState
               }),
             ),
         ],
-      );
-    }
+      ),
+    );
 
-    return roadWidget;
+    return settlementWidget;
   }
 }

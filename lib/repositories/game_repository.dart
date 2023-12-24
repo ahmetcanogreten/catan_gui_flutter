@@ -37,9 +37,76 @@ abstract interface class IGameRepository {
 
   Future<UserOptions> getUserOptions(
       {required int gameId, required String userId});
+
+  Future<void> chooseSettlementAndRoadForBot({
+    required int gameId,
+    required String userId,
+  });
+
+  Future<Map<int, List<int>>> loadAvailableSettlementsAndRoadsToChoose({
+    required int gameId,
+    required String userId,
+  });
+
+  Future<void> chooseSettlement({
+    required int settlementIndex,
+    required int gameId,
+    required String userId,
+  });
+
+  Future<void> chooseRoad({
+    required int roadIndex,
+    required int gameId,
+    required String userId,
+  });
 }
 
 class BackendGameRepository implements IGameRepository {
+  @override
+  Future<void> chooseRoad({
+    required int roadIndex,
+    required int gameId,
+    required String userId,
+  }) async {
+    await apiClient.post("/api/games/$gameId/choose-road",
+        queryParameters: {"userId": userId, "roadIndex": roadIndex});
+  }
+
+  @override
+  Future<void> chooseSettlement({
+    required int settlementIndex,
+    required int gameId,
+    required String userId,
+  }) async {
+    await apiClient.post("/api/games/$gameId/choose-settlement",
+        queryParameters: {
+          "userId": userId,
+          "settlementIndex": settlementIndex
+        });
+  }
+
+  @override
+  Future<Map<int, List<int>>> loadAvailableSettlementsAndRoadsToChoose({
+    required int gameId,
+    required String userId,
+  }) async {
+    final response = await apiClient.get(
+        "/api/games/$gameId/available-settlements-and-roads-to-choose",
+        queryParameters: {"userId": userId});
+
+    return (response.data as Map).map((key, value) => MapEntry(
+        int.parse(key), (value as List).map((e) => e as int).toList()));
+  }
+
+  @override
+  Future<void> chooseSettlementAndRoadForBot({
+    required int gameId,
+    required String userId,
+  }) async {
+    await apiClient.post(
+        "/api/games/$gameId/choose-settlement-and-road-for-bot?userId=$userId");
+  }
+
   @override
   Future<UserOptions> getUserOptions({
     required int gameId,
@@ -140,249 +207,257 @@ class BackendGameRepository implements IGameRepository {
   }
 }
 
-class MockGameRepository implements IGameRepository {
-  final List<Resource> resources = const [
-    Resource(index: 0, type: ResourceType.hills, number: 2),
-    Resource(index: 1, type: ResourceType.hills, number: 3),
-    Resource(index: 2, type: ResourceType.hills, number: 3),
-    Resource(index: 3, type: ResourceType.mountains, number: 4),
-    Resource(index: 4, type: ResourceType.mountains, number: 4),
-    Resource(index: 5, type: ResourceType.mountains, number: 5),
-    Resource(index: 6, type: ResourceType.forest, number: 5),
-    Resource(index: 7, type: ResourceType.forest, number: 6),
-    Resource(index: 8, type: ResourceType.forest, number: 6),
-    Resource(index: 9, type: ResourceType.forest, number: 8),
-    Resource(index: 10, type: ResourceType.fields, number: 8),
-    Resource(index: 11, type: ResourceType.fields, number: 9),
-    Resource(index: 12, type: ResourceType.fields, number: 9),
-    Resource(index: 13, type: ResourceType.fields, number: 10),
-    Resource(index: 14, type: ResourceType.pasture, number: 10),
-    Resource(index: 15, type: ResourceType.pasture, number: 11),
-    Resource(index: 16, type: ResourceType.pasture, number: 11),
-    Resource(index: 17, type: ResourceType.pasture, number: 12),
-  ];
+// class MockGameRepository implements IGameRepository {
+//   final List<Resource> resources = const [
+//     Resource(index: 0, type: ResourceType.hills, number: 2),
+//     Resource(index: 1, type: ResourceType.hills, number: 3),
+//     Resource(index: 2, type: ResourceType.hills, number: 3),
+//     Resource(index: 3, type: ResourceType.mountains, number: 4),
+//     Resource(index: 4, type: ResourceType.mountains, number: 4),
+//     Resource(index: 5, type: ResourceType.mountains, number: 5),
+//     Resource(index: 6, type: ResourceType.forest, number: 5),
+//     Resource(index: 7, type: ResourceType.forest, number: 6),
+//     Resource(index: 8, type: ResourceType.forest, number: 6),
+//     Resource(index: 9, type: ResourceType.forest, number: 8),
+//     Resource(index: 10, type: ResourceType.fields, number: 8),
+//     Resource(index: 11, type: ResourceType.fields, number: 9),
+//     Resource(index: 12, type: ResourceType.fields, number: 9),
+//     Resource(index: 13, type: ResourceType.fields, number: 10),
+//     Resource(index: 14, type: ResourceType.pasture, number: 10),
+//     Resource(index: 15, type: ResourceType.pasture, number: 11),
+//     Resource(index: 16, type: ResourceType.pasture, number: 11),
+//     Resource(index: 17, type: ResourceType.pasture, number: 12),
+//   ];
 
-  User turnPlayer = const User(
-    id: "1",
-    firstName: "Ahmet Can",
-    lastName: "Öğreten",
-    email: "",
-    isBot: false,
-  );
+//   User turnPlayer = const User(
+//     id: "1",
+//     firstName: "Ahmet Can",
+//     lastName: "Öğreten",
+//     email: "",
+//     isBot: false,
+//   );
 
-  List<User> players = [
-    const User(
-      id: "1",
-      firstName: "Ahmet Can",
-      lastName: "Öğreten",
-      email: "",
-      isBot: true,
-    ),
-    const User(
-      id: "2",
-      firstName: "Bot",
-      lastName: "1",
-      email: "",
-      isBot: true,
-    ),
-    const User(
-      id: "3",
-      firstName: "Bot",
-      lastName: "2",
-      email: "",
-      isBot: true,
-    ),
-    const User(
-      id: "4",
-      firstName: "Bot",
-      lastName: "3",
-      email: "",
-      isBot: true,
-    ),
-  ];
-  Map? board = {};
+//   List<User> players = [
+//     const User(
+//       id: "1",
+//       firstName: "Ahmet Can",
+//       lastName: "Öğreten",
+//       email: "",
+//       isBot: true,
+//     ),
+//     const User(
+//       id: "2",
+//       firstName: "Bot",
+//       lastName: "1",
+//       email: "",
+//       isBot: true,
+//     ),
+//     const User(
+//       id: "3",
+//       firstName: "Bot",
+//       lastName: "2",
+//       email: "",
+//       isBot: true,
+//     ),
+//     const User(
+//       id: "4",
+//       firstName: "Bot",
+//       lastName: "3",
+//       email: "",
+//       isBot: true,
+//     ),
+//   ];
+//   Map? board = {};
 
-  @override
-  Future<UserOptions> getUserOptions({
-    required int gameId,
-    required String userId,
-  }) async {
-    await Future.delayed(const Duration(seconds: 1));
+//   @override
+//   Future<void> chooseSettlementAndRoadForBot({
+//     required int gameId,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
+//   }
 
-    return UserOptions(
-      availableRoads: [1, 2, 3],
-      availableSettlements: [1, 2, 3],
-      availableCities: [1, 2, 3],
-    );
-  }
+//   @override
+//   Future<UserOptions> getUserOptions({
+//     required int gameId,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<GameStateModel> buildCity({
-    required int gameId,
-    required int cityIndex,
-    required String userId,
-  }) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return UserOptions(
+//       availableRoads: [1, 2, 3],
+//       availableSettlements: [1, 2, 3],
+//       availableCities: [1, 2, 3],
+//     );
+//   }
 
-    return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      turnState: TurnState.roll,
-    );
-  }
+//   @override
+//   Future<GameStateModel> buildCity({
+//     required int gameId,
+//     required int cityIndex,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<GameStateModel> buildSettlement({
-    required int gameId,
-    required int settlementIndex,
-    required String userId,
-  }) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return GameStateModel(
+//       id: 1,
+//       turnUser: turnPlayer,
+//       turnState: TurnState.roll,
+//     );
+//   }
 
-    return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      turnState: TurnState.roll,
-    );
-  }
+//   @override
+//   Future<GameStateModel> buildSettlement({
+//     required int gameId,
+//     required int settlementIndex,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<GameStateModel> buildRoad({
-    required int gameId,
-    required int roadIndex,
-    required String userId,
-  }) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return GameStateModel(
+//       id: 1,
+//       turnUser: turnPlayer,
+//       turnState: TurnState.roll,
+//     );
+//   }
 
-    return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      turnState: TurnState.roll,
-    );
-  }
+//   @override
+//   Future<GameStateModel> buildRoad({
+//     required int gameId,
+//     required int roadIndex,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<GameStateModel> endTurn({
-    required int gameId,
-    required String userId,
-  }) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return GameStateModel(
+//       id: 1,
+//       turnUser: turnPlayer,
+//       turnState: TurnState.roll,
+//     );
+//   }
 
-    return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      turnState: TurnState.roll,
-    );
-  }
+//   @override
+//   Future<GameStateModel> endTurn({
+//     required int gameId,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<Game> createGame({required int roomId}) async {
-    await Future.delayed(const Duration(seconds: 1));
-    return Game(
-      id: 1,
-      startedAt: DateTime.now(),
-      finishedAt: null,
-      resources: resources,
-      users: players,
-      usersCycle: players.map((e) => e.id).toList(),
-      room: Room(
-        id: 1,
-        name: "Room",
-        code: "123456",
-        gameStarted: false,
-        owner: players.first,
-        users: players,
-        resources: resources,
-      ),
-    );
-  }
+//     return GameStateModel(
+//       id: 1,
+//       turnUser: turnPlayer,
+//       turnState: TurnState.roll,
+//     );
+//   }
 
-  @override
-  Future<Game> getGame({required int gameId}) async {
-    await Future.delayed(const Duration(seconds: 1));
+//   @override
+//   Future<Game> createGame({required int roomId}) async {
+//     await Future.delayed(const Duration(seconds: 1));
+//     return Game(
+//       id: 1,
+//       startedAt: DateTime.now(),
+//       finishedAt: null,
+//       resources: resources,
+//       users: players,
+//       usersCycle: players.map((e) => e.id).toList(),
+//       room: Room(
+//         id: 1,
+//         name: "Room",
+//         code: "123456",
+//         gameStarted: false,
+//         owner: players.first,
+//         users: players,
+//         resources: resources,
+//       ),
+//     );
+//   }
 
-    return Game(
-      id: 1,
-      startedAt: DateTime.now(),
-      finishedAt: null,
-      resources: resources,
-      users: players,
-      usersCycle: players.map((e) => e.id).toList(),
-      room: Room(
-        id: 1,
-        name: "Room",
-        code: "123456",
-        gameStarted: false,
-        owner: players.first,
-        users: players,
-        resources: resources,
-      ),
-    );
-  }
+//   @override
+//   Future<Game> getGame({required int gameId}) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<GameStateModel> getGameState({required int gameId}) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return Game(
+//       id: 1,
+//       startedAt: DateTime.now(),
+//       finishedAt: null,
+//       resources: resources,
+//       users: players,
+//       usersCycle: players.map((e) => e.id).toList(),
+//       room: Room(
+//         id: 1,
+//         name: "Room",
+//         code: "123456",
+//         gameStarted: false,
+//         owner: players.first,
+//         users: players,
+//         resources: resources,
+//       ),
+//     );
+//   }
 
-    return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      turnState: TurnState.roll,
-    );
-  }
+//   @override
+//   Future<GameStateModel> getGameState({required int gameId}) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<List<UserState>> getUserStates({required int gameId}) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return GameStateModel(
+//       id: 1,
+//       turnUser: turnPlayer,
+//       turnState: TurnState.roll,
+//     );
+//   }
 
-    return players
-        .map((e) => UserState(
-              id: 1,
-              user: e,
-              game: Game(
-                id: 1,
-                startedAt: DateTime.now(),
-                finishedAt: null,
-                resources: resources,
-                users: players,
-                usersCycle: players.map((e) => e.id).toList(),
-                room: Room(
-                  id: 1,
-                  name: "Room",
-                  code: "123456",
-                  gameStarted: false,
-                  owner: players.first,
-                  users: players,
-                  resources: resources,
-                ),
-              ),
-              numberOfBricks: 0,
-              numberOfGrain: 0,
-              numberOfLumber: 0,
-              numberOfOre: 0,
-              numberOfWool: 0,
-              roads: const [],
-              settlements: const [],
-              cities: const [],
-            ))
-        .toList();
-  }
+//   @override
+//   Future<List<UserState>> getUserStates({required int gameId}) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-  @override
-  Future<GameStateModel> rollDice({
-    required int gameId,
-    required int dice1,
-    required int dice2,
-    required String userId,
-  }) async {
-    await Future.delayed(const Duration(seconds: 1));
+//     return players
+//         .map((e) => UserState(
+//               id: 1,
+//               user: e,
+//               game: Game(
+//                 id: 1,
+//                 startedAt: DateTime.now(),
+//                 finishedAt: null,
+//                 resources: resources,
+//                 users: players,
+//                 usersCycle: players.map((e) => e.id).toList(),
+//                 room: Room(
+//                   id: 1,
+//                   name: "Room",
+//                   code: "123456",
+//                   gameStarted: false,
+//                   owner: players.first,
+//                   users: players,
+//                   resources: resources,
+//                 ),
+//               ),
+//               numberOfBricks: 0,
+//               numberOfGrain: 0,
+//               numberOfLumber: 0,
+//               numberOfOre: 0,
+//               numberOfWool: 0,
+//               roads: const [],
+//               settlements: const [],
+//               cities: const [],
+//             ))
+//         .toList();
+//   }
 
-    return GameStateModel(
-      id: 1,
-      turnUser: turnPlayer,
-      turnState: TurnState.build,
-      dice1: 1,
-      dice2: 1,
-    );
-  }
-}
+//   @override
+//   Future<GameStateModel> rollDice({
+//     required int gameId,
+//     required int dice1,
+//     required int dice2,
+//     required String userId,
+//   }) async {
+//     await Future.delayed(const Duration(seconds: 1));
+
+//     return GameStateModel(
+//       id: 1,
+//       turnUser: turnPlayer,
+//       turnState: TurnState.build,
+//       dice1: 1,
+//       dice2: 1,
+//     );
+//   }
+// }

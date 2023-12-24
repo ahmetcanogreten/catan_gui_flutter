@@ -85,6 +85,7 @@ class _ConditionalCityWidgetState extends State<ConditionalCityWidget> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
                             color: Colors.green,

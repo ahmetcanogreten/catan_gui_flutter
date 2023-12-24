@@ -2,7 +2,6 @@ import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart'
 import 'package:catan_gui_flutter/features/game/cubit/game_cubit.dart';
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/road_widget.dart';
-import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_im_animations/im_animations.dart';
@@ -40,23 +39,30 @@ class _ConditionalRotatedRoadWidgetState
           ? constraints.maxHeight
           : constraints.maxWidth;
 
-      return DeferPointer(
+      return SizedBox(
+        width: maxSize * 10,
+        height: maxSize * 10,
         child: Transform.rotate(
           angle: widget.angle,
-          child: InkWell(
-            onTap: widget.canBeBought
-                ? () {
-                    setState(() {
-                      _isClicked = true;
-                    });
-                  }
-                : null,
-            child: RoadWidget(
-                width: maxSize * 0.5,
-                length: maxSize * 0.05,
-                color: widget.roads
-                    .firstWhere((element) => element.index == widget.index)
-                    .color),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: widget.canBeBought
+                    ? () {
+                        setState(() {
+                          _isClicked = true;
+                        });
+                      }
+                    : null,
+                child: RoadWidget(
+                    width: maxSize * 0.5,
+                    length: maxSize * 0.05,
+                    color: widget.roads
+                        .firstWhere((element) => element.index == widget.index)
+                        .color),
+              ),
+            ],
           ),
         ),
       );
@@ -87,34 +93,30 @@ class _ConditionalRotatedRoadWidgetState
                   ),
                   child: Row(
                     children: [
-                      DeferPointer(
-                        child: IconButton(
-                            color: Colors.green,
-                            onPressed: () {
-                              setState(() {
-                                context.read<GameCubit>().buildRoad(
-                                      userId: (context
-                                              .read<AuthenticationCubit>()
-                                              .state as LoggedIn)
-                                          .user
-                                          .id,
-                                      roadIndex: widget.index,
-                                    );
-                                _isClicked = false;
-                              });
-                            },
-                            icon: const Icon(Icons.check_rounded)),
-                      ),
-                      DeferPointer(
-                        child: IconButton(
-                            color: Colors.red,
-                            onPressed: () {
-                              setState(() {
-                                _isClicked = false;
-                              });
-                            },
-                            icon: const Icon(Icons.close_outlined)),
-                      ),
+                      IconButton(
+                          color: Colors.green,
+                          onPressed: () {
+                            setState(() {
+                              context.read<GameCubit>().buildRoad(
+                                    userId: (context
+                                            .read<AuthenticationCubit>()
+                                            .state as LoggedIn)
+                                        .user
+                                        .id,
+                                    roadIndex: widget.index,
+                                  );
+                              _isClicked = false;
+                            });
+                          },
+                          icon: const Icon(Icons.check_rounded)),
+                      IconButton(
+                          color: Colors.red,
+                          onPressed: () {
+                            setState(() {
+                              _isClicked = false;
+                            });
+                          },
+                          icon: const Icon(Icons.close_outlined)),
                     ],
                   ),
                 );

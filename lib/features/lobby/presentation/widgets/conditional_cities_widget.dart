@@ -2,7 +2,6 @@ import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart'
 import 'package:catan_gui_flutter/features/game/cubit/game_cubit.dart';
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/city_widget.dart';
-import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_im_animations/im_animations.dart';
@@ -36,20 +35,27 @@ class _ConditionalCityWidgetState extends State<ConditionalCityWidget> {
           ? constraints.maxHeight
           : constraints.maxWidth;
 
-      return DeferPointer(
-        child: InkWell(
-          onTap: widget.canBeBought
-              ? () {
-                  setState(() {
-                    _isClicked = true;
-                  });
-                }
-              : null,
-          child: CityWidget(
-              size: maxSize * 0.3,
-              color: widget.cities
-                  .firstWhere((element) => element.index == widget.index)
-                  .color),
+      return SizedBox(
+        width: maxSize * 10,
+        height: maxSize * 10,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: widget.canBeBought
+                  ? () {
+                      setState(() {
+                        _isClicked = true;
+                      });
+                    }
+                  : null,
+              child: CityWidget(
+                  size: maxSize * 0.3,
+                  color: widget.cities
+                      .firstWhere((element) => element.index == widget.index)
+                      .color),
+            ),
+          ],
         ),
       );
     });
@@ -80,35 +86,30 @@ class _ConditionalCityWidgetState extends State<ConditionalCityWidget> {
                     ),
                     child: Row(
                       children: [
-                        DeferPointer(
-                          paintOnTop: true,
-                          child: IconButton(
-                              color: Colors.green,
-                              onPressed: () {
-                                setState(() {
-                                  context.read<GameCubit>().buildCity(
-                                        userId: (context
-                                                .read<AuthenticationCubit>()
-                                                .state as LoggedIn)
-                                            .user
-                                            .id,
-                                        cityIndex: widget.index,
-                                      );
-                                  _isClicked = false;
-                                });
-                              },
-                              icon: const Icon(Icons.check_rounded)),
-                        ),
-                        DeferPointer(
-                          child: IconButton(
-                              color: Colors.red,
-                              onPressed: () {
-                                setState(() {
-                                  _isClicked = false;
-                                });
-                              },
-                              icon: const Icon(Icons.close_outlined)),
-                        ),
+                        IconButton(
+                            color: Colors.green,
+                            onPressed: () {
+                              setState(() {
+                                context.read<GameCubit>().buildCity(
+                                      userId: (context
+                                              .read<AuthenticationCubit>()
+                                              .state as LoggedIn)
+                                          .user
+                                          .id,
+                                      cityIndex: widget.index,
+                                    );
+                                _isClicked = false;
+                              });
+                            },
+                            icon: const Icon(Icons.check_rounded)),
+                        IconButton(
+                            color: Colors.red,
+                            onPressed: () {
+                              setState(() {
+                                _isClicked = false;
+                              });
+                            },
+                            icon: const Icon(Icons.close_outlined)),
                       ],
                     ),
                   );

@@ -45,6 +45,13 @@ class _GamePageState extends State<GamePage> {
     super.dispose();
   }
 
+  _scrollToBottom() {
+    _gameLogsScrollController.animateTo(
+        _gameLogsScrollController.position.maxScrollExtent,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOut);
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -606,15 +613,10 @@ class _GamePageState extends State<GamePage> {
                                         final gameLogs =
                                             (state as GameLoaded).gameLogs;
 
-                                        if (_isGameLogsRealTime &&
-                                            _gameLogsScrollController
-                                                .hasClients) {
-                                          _gameLogsScrollController.animateTo(
-                                              _gameLogsScrollController
-                                                  .position.maxScrollExtent,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              curve: Curves.easeInOut);
+                                        if (_isGameLogsRealTime) {
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback(
+                                                  (_) => _scrollToBottom());
                                         }
 
                                         return Column(

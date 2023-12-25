@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:catan_gui_flutter/features/auth/cubit/authentication_cubit.dart';
@@ -33,6 +34,16 @@ class _GamePageState extends State<GamePage> {
   bool _isRolling = false;
 
   bool _isBuildingCostsShown = false;
+
+  bool _isGameLogsRealTime = true;
+
+  final _gameLogsScrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _gameLogsScrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -247,41 +258,212 @@ class _GamePageState extends State<GamePage> {
                                 })),
                             SizedBox(width: maxSize * 0.05),
                             Expanded(
-                                child: _isMyTurn
-                                    ? Builder(builder: (context) {
-                                        switch (turnState) {
-                                          case TurnState.choose_1:
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Choose your first settlement and road',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            );
-                                          case TurnState.choose_2:
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Choose your second settlement and road',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            );
-                                          case TurnState.roll:
-                                            if (_isRolling) {
+                                child: Column(
+                              children: [
+                                Expanded(
+                                  child: _isMyTurn
+                                      ? Builder(builder: (context) {
+                                          switch (turnState) {
+                                            case TurnState.choose_1:
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Choose your first settlement and road',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                        fontSize:
+                                                            maxSize * 0.02),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              );
+                                            case TurnState.choose_2:
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Choose your second settlement and road',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                        fontSize:
+                                                            maxSize * 0.02),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              );
+                                            case TurnState.roll:
+                                              if (_isRolling) {
+                                                return Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: maxSize * 0.1,
+                                                      height: maxSize * 0.1,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        strokeWidth:
+                                                            maxSize * 0.01,
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: maxSize * 0.02),
+                                                    Text(
+                                                      'Rolling',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .orange.shade100,
+                                                          fontSize:
+                                                              maxSize * 0.02),
+                                                    ),
+                                                  ],
+                                                );
+                                              }
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                      height: maxSize * 0.1,
+                                                      width: maxSize * 0.1,
+                                                      child: CATElevatedButton(
+                                                          backgroundColor:
+                                                              Colors.orange
+                                                                  .shade100,
+                                                          foregroundColor:
+                                                              Colors.orange
+                                                                  .shade500,
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _isRolling = true;
+                                                            });
+
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 2),
+                                                                () {
+                                                              final dice1 =
+                                                                  Random().nextInt(
+                                                                          6) +
+                                                                      1;
+                                                              final dice2 =
+                                                                  Random().nextInt(
+                                                                          6) +
+                                                                      1;
+
+                                                              final userId = (GetIt
+                                                                          .I
+                                                                          .get<
+                                                                              AuthenticationCubit>()
+                                                                          .state
+                                                                      as LoggedIn)
+                                                                  .user
+                                                                  .id;
+
+                                                              context
+                                                                  .read<
+                                                                      GameCubit>()
+                                                                  .sendRollDice(
+                                                                      gameId: widget
+                                                                          .gameId,
+                                                                      dice1:
+                                                                          dice1,
+                                                                      dice2:
+                                                                          dice2,
+                                                                      userId:
+                                                                          userId);
+                                                            });
+                                                          },
+                                                          child: Text(
+                                                            "Roll",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize:
+                                                                    maxSize *
+                                                                        0.02),
+                                                          ))),
+                                                ],
+                                              );
+
+                                            case TurnState.build:
+                                              final dice1 = state
+                                                  .gameStateModel.dice1 as int;
+                                              final dice2 = state
+                                                  .gameStateModel.dice2 as int;
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                      height: maxSize * 0.1,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          SizedBox(
+                                                            width:
+                                                                maxSize * 0.1,
+                                                            child: Dice(
+                                                                value: dice1),
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                maxSize * 0.1,
+                                                            child: Dice(
+                                                                value: dice2),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                  CATElevatedButton(
+                                                    backgroundColor:
+                                                        Colors.orange.shade100,
+                                                    foregroundColor:
+                                                        Colors.orange.shade500,
+                                                    onPressed: () {
+                                                      context
+                                                          .read<GameCubit>()
+                                                          .endTurn(
+                                                              gameId:
+                                                                  widget.gameId,
+                                                              userId: (GetIt.I
+                                                                          .get<
+                                                                              AuthenticationCubit>()
+                                                                          .state
+                                                                      as LoggedIn)
+                                                                  .user
+                                                                  .id);
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              16.0),
+                                                      child: Text(
+                                                        "End Turn",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize:
+                                                                maxSize * 0.02),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                          }
+                                        })
+                                      : Builder(builder: (context) {
+                                          switch (turnState) {
+                                            case TurnState.choose_1:
                                               return Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -300,7 +482,7 @@ class _GamePageState extends State<GamePage> {
                                                   SizedBox(
                                                       height: maxSize * 0.02),
                                                   Text(
-                                                    'Rolling',
+                                                    '${turnUser.firstName} is choosing settlement and road',
                                                     style: TextStyle(
                                                         color: Colors
                                                             .orange.shade100,
@@ -309,261 +491,236 @@ class _GamePageState extends State<GamePage> {
                                                   ),
                                                 ],
                                               );
-                                            }
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                    height: maxSize * 0.1,
+                                            case TurnState.choose_2:
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
                                                     width: maxSize * 0.1,
-                                                    child: CATElevatedButton(
-                                                        backgroundColor: Colors
-                                                            .orange.shade100,
-                                                        foregroundColor: Colors
-                                                            .orange.shade500,
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            _isRolling = true;
-                                                          });
-
-                                                          Future.delayed(
-                                                              const Duration(
-                                                                  seconds: 2),
-                                                              () {
-                                                            final dice1 =
-                                                                Random().nextInt(
-                                                                        6) +
-                                                                    1;
-                                                            final dice2 =
-                                                                Random().nextInt(
-                                                                        6) +
-                                                                    1;
-
-                                                            final userId = (GetIt
-                                                                        .I
-                                                                        .get<
-                                                                            AuthenticationCubit>()
-                                                                        .state
-                                                                    as LoggedIn)
-                                                                .user
-                                                                .id;
-
-                                                            context
-                                                                .read<
-                                                                    GameCubit>()
-                                                                .sendRollDice(
-                                                                    gameId: widget
-                                                                        .gameId,
-                                                                    dice1:
-                                                                        dice1,
-                                                                    dice2:
-                                                                        dice2,
-                                                                    userId:
-                                                                        userId);
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          "Roll",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize:
-                                                                  maxSize *
-                                                                      0.02),
-                                                        ))),
-                                              ],
-                                            );
-
-                                          case TurnState.build:
-                                            final dice1 = state
-                                                .gameStateModel.dice1 as int;
-                                            final dice2 = state
-                                                .gameStateModel.dice2 as int;
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
                                                     height: maxSize * 0.1,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        SizedBox(
-                                                          width: maxSize * 0.1,
-                                                          child: Dice(
-                                                              value: dice1),
-                                                        ),
-                                                        SizedBox(
-                                                          width: maxSize * 0.1,
-                                                          child: Dice(
-                                                              value: dice2),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                                CATElevatedButton(
-                                                  backgroundColor:
-                                                      Colors.orange.shade100,
-                                                  foregroundColor:
-                                                      Colors.orange.shade500,
-                                                  onPressed: () {
-                                                    context
-                                                        .read<GameCubit>()
-                                                        .endTurn(
-                                                            gameId:
-                                                                widget.gameId,
-                                                            userId: (GetIt.I
-                                                                        .get<
-                                                                            AuthenticationCubit>()
-                                                                        .state
-                                                                    as LoggedIn)
-                                                                .user
-                                                                .id);
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16.0),
-                                                    child: Text(
-                                                      "End Turn",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize:
-                                                              maxSize * 0.02),
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth:
+                                                          maxSize * 0.01,
+                                                      color: Colors
+                                                          .orange.shade100,
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            );
-                                        }
-                                      })
-                                    : Builder(builder: (context) {
-                                        switch (turnState) {
-                                          case TurnState.choose_1:
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: maxSize * 0.1,
-                                                  height: maxSize * 0.1,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: maxSize * 0.01,
-                                                    color:
-                                                        Colors.orange.shade100,
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                  Text(
+                                                    '${turnUser.firstName} is choosing settlement and road',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                        fontSize:
+                                                            maxSize * 0.02),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                                Text(
-                                                  '${turnUser.firstName} is choosing settlement and road',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                ),
-                                              ],
-                                            );
-                                          case TurnState.choose_2:
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: maxSize * 0.1,
-                                                  height: maxSize * 0.1,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: maxSize * 0.01,
-                                                    color:
-                                                        Colors.orange.shade100,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                                Text(
-                                                  '${turnUser.firstName} is choosing settlement and road',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                ),
-                                              ],
-                                            );
-                                          case TurnState.roll:
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: maxSize * 0.1,
-                                                  height: maxSize * 0.1,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: maxSize * 0.01,
-                                                    color:
-                                                        Colors.orange.shade100,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                                Text(
-                                                  '${turnUser.firstName} is rolling',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                ),
-                                              ],
-                                            );
-                                          case TurnState.build:
-                                            final dice1 = state
-                                                .gameStateModel.dice1 as int;
-                                            final dice2 = state
-                                                .gameStateModel.dice2 as int;
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '${turnUser.firstName} rolled',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade100,
-                                                      fontSize: maxSize * 0.02),
-                                                ),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                                SizedBox(
+                                                ],
+                                              );
+                                            case TurnState.roll:
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    width: maxSize * 0.1,
                                                     height: maxSize * 0.1,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        SizedBox(
-                                                          width: maxSize * 0.1,
-                                                          child: Dice(
-                                                              value: dice1),
-                                                        ),
-                                                        SizedBox(
-                                                          width: maxSize * 0.1,
-                                                          child: Dice(
-                                                              value: dice2),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                SizedBox(
-                                                    height: maxSize * 0.02),
-                                              ],
-                                            );
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth:
+                                                          maxSize * 0.01,
+                                                      color: Colors
+                                                          .orange.shade100,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                  Text(
+                                                    '${turnUser.firstName} is rolling',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                        fontSize:
+                                                            maxSize * 0.02),
+                                                  ),
+                                                ],
+                                              );
+                                            case TurnState.build:
+                                              final dice1 = state
+                                                  .gameStateModel.dice1 as int;
+                                              final dice2 = state
+                                                  .gameStateModel.dice2 as int;
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    '${turnUser.firstName} rolled',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .orange.shade100,
+                                                        fontSize:
+                                                            maxSize * 0.02),
+                                                  ),
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                  SizedBox(
+                                                      height: maxSize * 0.1,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          SizedBox(
+                                                            width:
+                                                                maxSize * 0.1,
+                                                            child: Dice(
+                                                                value: dice1),
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                maxSize * 0.1,
+                                                            child: Dice(
+                                                                value: dice2),
+                                                          ),
+                                                        ],
+                                                      )),
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                ],
+                                              );
+                                          }
+                                        }),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(maxSize * 0.02),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: BlocBuilder<GameCubit, GameState>(
+                                      builder: (context, state) {
+                                        final gameLogs =
+                                            (state as GameLoaded).gameLogs;
+
+                                        if (_isGameLogsRealTime &&
+                                            _gameLogsScrollController
+                                                .hasClients) {
+                                          _gameLogsScrollController.animateTo(
+                                              _gameLogsScrollController
+                                                  .position.maxScrollExtent,
+                                              duration:
+                                                  const Duration(seconds: 1),
+                                              curve: Curves.easeInOut);
                                         }
-                                      })),
+
+                                        return Column(
+                                          children: [
+                                            Expanded(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Game Logs',
+                                                    style: TextStyle(
+                                                      fontSize: maxSize * 0.02,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors
+                                                          .orange.shade100,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  _isGameLogsRealTime
+                                                      ? IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _isGameLogsRealTime =
+                                                                  false;
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.refresh,
+                                                            color: Colors.orange
+                                                                .shade100,
+                                                          ))
+                                                      : IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              _isGameLogsRealTime =
+                                                                  true;
+                                                            });
+                                                          },
+                                                          icon: Icon(
+                                                            Icons
+                                                                .arrow_downward_rounded,
+                                                            color: Colors.orange
+                                                                .shade100,
+                                                          ))
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: maxSize * 0.02),
+                                            Expanded(
+                                              flex: 10,
+                                              child: ListView.separated(
+                                                controller:
+                                                    _gameLogsScrollController,
+                                                shrinkWrap: true,
+                                                separatorBuilder:
+                                                    (context, index) =>
+                                                        Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: maxSize * 0.01),
+                                                  height: maxSize * 0.001,
+                                                  color: Colors.orange.shade100,
+                                                ),
+                                                itemBuilder: (context, index) {
+                                                  return Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Center(
+                                                          child: Text(
+                                                            (index + 1)
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .orange
+                                                                    .shade100,
+                                                                fontSize: 14),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 6,
+                                                        child: Text(
+                                                          gameLogs[index].log,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .orange
+                                                                  .shade100,
+                                                              fontSize: 14),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                                itemCount: gameLogs.length,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )),
                           ],
                         ),
                       );

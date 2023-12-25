@@ -1,5 +1,6 @@
 import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
+import 'package:catan_gui_flutter/features/game/models/game_log.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/game/models/user_options.dart';
@@ -59,9 +60,18 @@ abstract interface class IGameRepository {
     required int gameId,
     required String userId,
   });
+
+  Future<List<GameLog>> getGameLogs({required int gameId});
 }
 
 class BackendGameRepository implements IGameRepository {
+  @override
+  Future<List<GameLog>> getGameLogs({required int gameId}) async {
+    final response = await apiClient.get("/api/games/$gameId/logs");
+
+    return (response.data as List).map((e) => GameLog.fromJson(e)).toList();
+  }
+
   @override
   Future<void> chooseRoad({
     required int roadIndex,

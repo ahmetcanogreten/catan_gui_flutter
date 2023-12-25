@@ -217,12 +217,20 @@ class _LobbyPageState extends State<LobbyPage> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
-                                        child: CatanBoard(
-                                          resources: orderedResourceTypes,
-                                          numbers: orderedNumbers,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: maxSize * 0.6,
+                                              child: CatanBoard(
+                                                resources: orderedResourceTypes,
+                                                numbers: orderedNumbers,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(height: maxSize * 0.05),
                                       Material(
                                         color: Colors.transparent,
                                         child: InkWell(

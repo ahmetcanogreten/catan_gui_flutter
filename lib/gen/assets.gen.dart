@@ -9,6 +9,16 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/points.png
+  AssetGenImage get points => const AssetGenImage('assets/icons/points.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [points];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -25,38 +35,18 @@ class $AssetsImagesGen {
   /// File path: assets/images/fields.png
   AssetGenImage get fields => const AssetGenImage('assets/images/fields.png');
 
-  /// File path: assets/images/fields_grain.png
-  AssetGenImage get fieldsGrain =>
-      const AssetGenImage('assets/images/fields_grain.png');
-
   /// File path: assets/images/forest.png
   AssetGenImage get forest => const AssetGenImage('assets/images/forest.png');
 
-  /// File path: assets/images/forest_lumber.png
-  AssetGenImage get forestLumber =>
-      const AssetGenImage('assets/images/forest_lumber.png');
-
   /// File path: assets/images/hills.png
   AssetGenImage get hills => const AssetGenImage('assets/images/hills.png');
-
-  /// File path: assets/images/hills_brick.png
-  AssetGenImage get hillsBrick =>
-      const AssetGenImage('assets/images/hills_brick.png');
 
   /// File path: assets/images/mountains.png
   AssetGenImage get mountains =>
       const AssetGenImage('assets/images/mountains.png');
 
-  /// File path: assets/images/mountains_ore.png
-  AssetGenImage get mountainsOre =>
-      const AssetGenImage('assets/images/mountains_ore.png');
-
   /// File path: assets/images/pasture.png
   AssetGenImage get pasture => const AssetGenImage('assets/images/pasture.png');
-
-  /// File path: assets/images/pasture_wool.png
-  AssetGenImage get pastureWool =>
-      const AssetGenImage('assets/images/pasture_wool.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -64,21 +54,17 @@ class $AssetsImagesGen {
         desert,
         dice,
         fields,
-        fieldsGrain,
         forest,
-        forestLumber,
         hills,
-        hillsBrick,
         mountains,
-        mountainsOre,
-        pasture,
-        pastureWool
+        pasture
       ];
 }
 
 class Assets {
   Assets._();
 
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

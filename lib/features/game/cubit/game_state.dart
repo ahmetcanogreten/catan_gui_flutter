@@ -17,6 +17,7 @@ final class GameLoaded extends GameState {
   final List<UserState> userStates;
   final UserOptions userOptions;
   final List<GameLog> gameLogs;
+  final List<UserWithInGamePoints> usersWithInGamePoints;
 
   const GameLoaded({
     required this.game,
@@ -24,9 +25,16 @@ final class GameLoaded extends GameState {
     required this.userStates,
     required this.userOptions,
     required this.gameLogs,
+    required this.usersWithInGamePoints,
   });
 
   @override
-  List<Object> get props =>
-      [game, gameStateModel, userStates, userOptions, gameLogs];
+  List<Object> get props => [
+        game,
+        gameStateModel,
+        userStates,
+        userOptions,
+        gameLogs,
+        usersWithInGamePoints
+      ];
 }

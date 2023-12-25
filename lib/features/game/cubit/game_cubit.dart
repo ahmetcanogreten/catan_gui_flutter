@@ -7,6 +7,7 @@ import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_log.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/models/user_options.dart';
+import 'package:catan_gui_flutter/features/game/models/user_with_in_game_points.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
 import 'package:catan_gui_flutter/repositories/game_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -98,6 +99,9 @@ class GameCubit extends Cubit<GameState> {
         gameId: gameId,
       );
 
+      final usersWithInGamePoints =
+          await _gameRepository.getUsersWithInGamePoints(gameId: gameId);
+
       if (isClosed) {
         return;
       }
@@ -114,6 +118,7 @@ class GameCubit extends Cubit<GameState> {
         userStates: userStates,
         userOptions: userOptions,
         gameLogs: gameLogs,
+        usersWithInGamePoints: usersWithInGamePoints,
       ));
     });
   }

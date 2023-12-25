@@ -154,6 +154,8 @@ class _GamePageState extends State<GamePage> {
                         roads = [...roads, ...userRoads];
                       }
 
+                      final usersWithInGamePoints = state.usersWithInGamePoints;
+
                       return Padding(
                         padding: EdgeInsets.all(maxSize * 0.1 * 0),
                         child: Row(
@@ -197,6 +199,11 @@ class _GamePageState extends State<GamePage> {
                                                   (element) =>
                                                       element.user.id ==
                                                       usersCycle[index]),
+                                              userWithInGamePoints:
+                                                  usersWithInGamePoints
+                                                      .firstWhere((element) =>
+                                                          element.id ==
+                                                          usersCycle[index]),
                                             ),
                                           ),
                                         ],

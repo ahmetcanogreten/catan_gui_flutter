@@ -1,3 +1,4 @@
+import 'package:catan_gui_flutter/features/game/models/user_with_in_game_points.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 class InGamePlayerEntry extends StatelessWidget {
   final User user;
   final UserState userState;
+  final UserWithInGamePoints userWithInGamePoints;
   final Color color;
 
   const InGamePlayerEntry({
@@ -13,6 +15,7 @@ class InGamePlayerEntry extends StatelessWidget {
     required this.user,
     required this.userState,
     required this.color,
+    required this.userWithInGamePoints,
   });
 
   @override
@@ -29,10 +32,6 @@ class InGamePlayerEntry extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: Colors.transparent,
-
-            // color,
-
-            // isTurnPlayer ? Colors.green.shade900 : Colors.transparent,
             width: maxSize * 0.02,
           ),
         ),
@@ -114,6 +113,25 @@ class InGamePlayerEntry extends StatelessWidget {
                               children: [
                                 Expanded(child: Assets.images.pasture.image()),
                                 Text(userState.numberOfWool.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: maxSize * 0.075)),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: maxSize * 0.02),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(8)),
+                            width: 2,
+                          ),
+                          SizedBox(width: maxSize * 0.06),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(child: Assets.icons.points.image()),
+                                Text(userWithInGamePoints.points.toString(),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: maxSize * 0.075)),

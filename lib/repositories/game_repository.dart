@@ -2,17 +2,16 @@ import 'package:catan_gui_flutter/api/api_client.dart';
 import 'package:catan_gui_flutter/features/game/models/game.dart';
 import 'package:catan_gui_flutter/features/game/models/game_log.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
-import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/game/models/user_options.dart';
 import 'package:catan_gui_flutter/features/game/models/user_with_in_game_points.dart';
-import 'package:catan_gui_flutter/features/lobby/models/room.dart';
-import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
 
 abstract interface class IGameRepository {
   Future<Game> createGame({required int roomId});
 
   Future<Game> getGame({required int gameId});
+
+  Future<Game> getGameByRoomId({required int roomId});
 
   Future<GameStateModel> getGameState({required int gameId});
 
@@ -69,6 +68,13 @@ abstract interface class IGameRepository {
 }
 
 class BackendGameRepository implements IGameRepository {
+  @override
+  Future<Game> getGameByRoomId({required int roomId}) async {
+    final response = await apiClient.get("/api/games/room/$roomId");
+
+    return Game.fromJson(response.data);
+  }
+
   @override
   Future<List<UserWithInGamePoints>> getUsersWithInGamePoints(
       {required int gameId}) async {

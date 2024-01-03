@@ -6,11 +6,14 @@ import 'package:catan_gui_flutter/router.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LobbyPage extends StatefulWidget {
-  const LobbyPage({super.key});
+  final bool isOwner;
+  final int? roomId;
+  const LobbyPage({super.key, required this.isOwner, this.roomId});
 
   @override
   State<LobbyPage> createState() => _LobbyPageState();
@@ -22,8 +25,13 @@ class _LobbyPageState extends State<LobbyPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          LobbyCubit()..createRoomAndStartTimer(roomName: "Room"),
+      create: (context) {
+        if (widget.isOwner) {
+          return LobbyCubit()..createRoomAndStartTimer(roomName: "Room");
+        } else {
+          return LobbyCubit()..joinRoomAndStartTimer(roomId: widget.roomId!);
+        }
+      },
       child: LayoutBuilder(builder: (context, constraints) {
         final maxSize = constraints.maxWidth > constraints.maxHeight
             ? constraints.maxHeight
@@ -91,6 +99,29 @@ class _LobbyPageState extends State<LobbyPage> {
                                       },
                                     ),
                                   ),
+                                  FittedBox(
+                                      child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(16),
+                                      onTap: () {
+                                        Clipboard.setData(
+                                            ClipboardData(text: room.code));
+                                      },
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.all(maxSize * 0.005),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        child: Text(room.code,
+                                            style: TextStyle(
+                                                color: Colors.orange.shade100)),
+                                      ),
+                                    ),
+                                  ))
                                 ]),
                           ),
                           SizedBox(height: maxSize * 0.02),

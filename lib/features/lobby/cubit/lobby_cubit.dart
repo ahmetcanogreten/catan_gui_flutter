@@ -43,6 +43,33 @@ class LobbyCubit extends Cubit<LobbyState> {
       emit(LobbyLoaded(
         room: room,
       ));
+
+      if (room.gameStarted) {
+        final game = await _gameRepository.getGameByRoomId(roomId: room.id);
+
+        emit(GameCreated(gameId: game.id));
+      }
+    });
+  }
+
+  void joinRoomAndStartTimer({required int roomId}) async {
+    emit(LobbyCreating());
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      room = await _roomRepository.getRoom(roomId: roomId);
+
+      if (isClosed) {
+        return;
+      }
+      emit(LobbyLoaded(
+        room: room,
+      ));
+
+      if (room.gameStarted) {
+        final game = await _gameRepository.getGameByRoomId(roomId: room.id);
+
+        emit(GameCreated(gameId: game.id));
+      }
     });
   }
 
@@ -63,12 +90,7 @@ class LobbyCubit extends Cubit<LobbyState> {
   void createGame() async {
     try {
       emit(GameCreating());
-
-      final game = await _gameRepository.createGame(roomId: room.id);
-
-      emit(GameCreated(gameId: game.id));
-    } catch (e) {
-      emit(GameCreatingError());
-    }
+      await _gameRepository.createGame(roomId: room.id);
+    } catch (e) {}
   }
 }

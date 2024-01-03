@@ -103,7 +103,8 @@ class HomePage extends StatelessWidget {
                                     iconData: Icons.add_rounded,
                                     text: 'New Game',
                                     onPressed: () {
-                                      context.go(newGameRoute);
+                                      context.go(lobbyRoute,
+                                          extra: {"isOwner": true});
                                     },
                                   ),
                                 ),
@@ -114,9 +115,7 @@ class HomePage extends StatelessWidget {
                                     iconData: Icons.key_rounded,
                                     text: 'Join Game',
                                     onPressed: () {
-                                      // context
-                                      //     .read<AuthenticationCubit>()
-                                      //     .logOutUser();
+                                      context.go(joinGameRoute);
                                     },
                                   ),
                                 ),

@@ -1,6 +1,7 @@
 import 'package:catan_gui_flutter/features/auth/presentation/pages/authentication_page.dart';
 import 'package:catan_gui_flutter/features/game/presentation/pages/game_page.dart';
 import 'package:catan_gui_flutter/features/home/presentation/pages/home_page.dart';
+import 'package:catan_gui_flutter/features/join/presentation/pages/join_game_page.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/pages/lobby_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,8 @@ import 'package:go_router/go_router.dart';
 // Routes
 const authenticationRoute = '/authentication';
 const homeRoute = '/home';
-const newGameRoute = '/home/new-game';
+const lobbyRoute = '/home/lobby';
+const joinGameRoute = '/home/join-game';
 const gameRoute = '/game';
 
 // GoRouter configuration
@@ -35,10 +37,33 @@ final routerConfig = GoRouter(
         },
         routes: [
           GoRoute(
-            path: "new-game",
+            path: "lobby",
+            pageBuilder: (context, state) {
+              final map = state.extra as Map;
+
+              final isOwner = map['isOwner'] as bool;
+              final roomId = map['roomId'] as int?;
+
+              return CustomTransitionPage(
+                child: LobbyPage(
+                  isOwner: isOwner,
+                  roomId: roomId,
+                ),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              );
+            },
+          ),
+          GoRoute(
+            path: "join-game",
             pageBuilder: (context, state) {
               return CustomTransitionPage(
-                child: const LobbyPage(),
+                child: const JoinGamePage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return FadeTransition(

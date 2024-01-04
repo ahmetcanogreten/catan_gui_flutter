@@ -12,12 +12,12 @@ final class LeaderboardInitial extends LeaderboardState {}
 final class LeaderboardLoading extends LeaderboardState {}
 
 final class LeaderboardLoaded extends LeaderboardState {
-  final List<UserWithPoints> usersWithPoints;
+  final PaginatedUserWithPoints paginatedUsersWithPoints;
 
-  const LeaderboardLoaded({required this.usersWithPoints});
+  const LeaderboardLoaded({required this.paginatedUsersWithPoints});
 
   @override
-  List<Object> get props => [usersWithPoints];
+  List<Object> get props => [paginatedUsersWithPoints];
 }
 
 final class LeaderboardError extends LeaderboardState {}

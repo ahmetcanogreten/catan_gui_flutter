@@ -1,6 +1,7 @@
 import 'package:catan_gui_flutter/features/leaderboard/cubit/leaderboard_cubit.dart';
 import 'package:catan_gui_flutter/features/leaderboard/models/graph_easy_interval.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
+import 'package:catan_gui_flutter/models/user_with_points.dart';
 import 'package:catan_gui_flutter/widgets/cat_choice_chip.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
 import 'package:catan_gui_flutter/widgets/simple_paginated_table.dart';
@@ -20,6 +21,9 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       DateTime.now().subtract(const Duration(days: 30)).toUtc();
   DateTime _endDate = DateTime.now().toUtc();
 
+  int _pageNo = 0;
+  int _pageSize = 10;
+
   GraphEasyInterval _graphEasyInterval = GraphEasyInterval.last30Days;
 
   final _leaderboardCubit = LeaderboardCubit();
@@ -33,7 +37,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
 
   void _getLeaderbord() {
     _leaderboardCubit.getLeaderboard(
-        startDate: _startDate, endDate: _endDate, pageSize: 10, pageNo: 0);
+        startDate: _startDate,
+        endDate: _endDate,
+        pageSize: _pageSize,
+        pageNo: _pageNo);
   }
 
   @override
@@ -173,7 +180,11 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 );
                               }
 
-                              final userWithPoints = state.usersWithPoints;
+                              final paginatedUserWithPoints =
+                                  state.paginatedUsersWithPoints;
+
+                              final userWithPoints =
+                                  paginatedUserWithPoints.users;
 
                               return ListView(
                                 children: [
@@ -185,8 +196,16 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: SimplePaginatedTable(
+                                        currentPage: _pageNo,
+                                        pageSize: _pageSize,
                                         headers: [
                                           SimplePaginatedTableHeader(
+                                              child: Text('Order',
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .orange.shade100))),
+                                          SimplePaginatedTableHeader(
+                                              flex: 5,
                                               child: Text('User',
                                                   style: TextStyle(
                                                       color: Colors
@@ -198,7 +217,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                                           .orange.shade100))),
                                         ],
                                         itemCount: userWithPoints.length,
-                                        itemTotal: userWithPoints.length,
+                                        itemTotal:
+                                            paginatedUserWithPoints.total,
                                         itemBuilder: ((
                                             {required columnIndex,
                                             required rowIndex}) {
@@ -208,11 +228,17 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                           switch (columnIndex) {
                                             case 0:
                                               return Text(
-                                                  "${userWithPoint.user.firstName} ${userWithPoint.user.lastName}",
+                                                  "${rowIndex + 1 + _pageNo * _pageSize}",
                                                   style: TextStyle(
                                                       color: Colors
                                                           .orange.shade100));
                                             case 1:
+                                              return Text(
+                                                  "${userWithPoint.user.firstName} ${userWithPoint.user.lastName}",
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .orange.shade100));
+                                            case 2:
                                               return Row(
                                                 children: [
                                                   SizedBox(
@@ -233,8 +259,20 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                               return const SizedBox.shrink();
                                           }
                                         }),
-                                        onPageChanged: (newPage) {},
-                                        onPageSizeChanged: (newPageSize) {}),
+                                        onPageChanged: (newPage) {
+                                          setState(() {
+                                            _pageNo = newPage;
+                                          });
+
+                                          _getLeaderbord();
+                                        },
+                                        onPageSizeChanged: (newPageSize) {
+                                          setState(() {
+                                            _pageSize = newPageSize;
+                                          });
+
+                                          _getLeaderbord();
+                                        }),
                                   ),
                                 ],
                               );

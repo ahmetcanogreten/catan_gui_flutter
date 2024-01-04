@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:catan_gui_flutter/models/paginated_user_with_points.dart';
 import 'package:catan_gui_flutter/models/user_with_points.dart';
 import 'package:catan_gui_flutter/repositories/leaderboard_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -29,7 +30,7 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
         pageNo: pageNo,
       );
 
-      emit(LeaderboardLoaded(usersWithPoints: userWithPoints));
+      emit(LeaderboardLoaded(paginatedUsersWithPoints: userWithPoints));
     } catch (e) {
       emit(LeaderboardError());
     }

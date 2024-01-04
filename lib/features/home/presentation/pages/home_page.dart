@@ -126,15 +126,10 @@ class HomePage extends StatelessWidget {
                                     iconData: Icons.emoji_events_rounded,
                                     text: 'Leaderboard',
                                     onPressed: () {
-                                      // context
-                                      //     .read<AuthenticationCubit>()
-                                      //     .logOutUser();
+                                      context.go(leaderboardRoute);
                                     },
                                   ),
                                 ),
-
-                                // Join Game
-                                // Leaderboard
                               ],
                             ),
                           ),

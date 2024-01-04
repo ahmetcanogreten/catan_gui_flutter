@@ -2,6 +2,7 @@ import 'package:catan_gui_flutter/features/auth/presentation/pages/authenticatio
 import 'package:catan_gui_flutter/features/game/presentation/pages/game_page.dart';
 import 'package:catan_gui_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:catan_gui_flutter/features/join/presentation/pages/join_game_page.dart';
+import 'package:catan_gui_flutter/features/leaderboard/presentation/pages/leaderboard_page.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/pages/lobby_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ const homeRoute = '/home';
 const lobbyRoute = '/home/lobby';
 const joinGameRoute = '/home/join-game';
 const gameRoute = '/game';
+const leaderboardRoute = '/home/leaderboard';
 
 // GoRouter configuration
 final routerConfig = GoRouter(
@@ -64,6 +66,21 @@ final routerConfig = GoRouter(
             pageBuilder: (context, state) {
               return CustomTransitionPage(
                 child: const JoinGamePage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              );
+            },
+          ),
+          GoRoute(
+            path: "leaderboard",
+            pageBuilder: (context, state) {
+              return CustomTransitionPage(
+                child: const LeaderboardPage(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return FadeTransition(

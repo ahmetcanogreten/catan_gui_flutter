@@ -1,0 +1,23 @@
+part of 'leaderboard_cubit.dart';
+
+sealed class LeaderboardState extends Equatable {
+  const LeaderboardState();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class LeaderboardInitial extends LeaderboardState {}
+
+final class LeaderboardLoading extends LeaderboardState {}
+
+final class LeaderboardLoaded extends LeaderboardState {
+  final List<UserWithPoints> usersWithPoints;
+
+  const LeaderboardLoaded({required this.usersWithPoints});
+
+  @override
+  List<Object> get props => [usersWithPoints];
+}
+
+final class LeaderboardError extends LeaderboardState {}

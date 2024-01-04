@@ -8,6 +8,7 @@ import 'package:catan_gui_flutter/features/game/models/game_log.dart';
 import 'package:catan_gui_flutter/features/game/models/game_state_model.dart';
 import 'package:catan_gui_flutter/features/game/models/user_options.dart';
 import 'package:catan_gui_flutter/features/game/models/user_with_in_game_points.dart';
+import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/models/user_state.dart';
 import 'package:catan_gui_flutter/repositories/game_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -89,6 +90,14 @@ class GameCubit extends Cubit<GameState> {
       final gameStateModel = await _gameRepository.getGameState(
         gameId: gameId,
       );
+
+      final game = gameStateModel.game;
+
+      if (game.finishedAt != null) {
+        timer.cancel();
+        emit(GameFinished(winner: gameStateModel.turnUser));
+        return;
+      }
 
       final userOptions = await _gameRepository.getUserOptions(
         gameId: gameId,

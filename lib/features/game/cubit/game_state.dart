@@ -38,3 +38,12 @@ final class GameLoaded extends GameState {
         usersWithInGamePoints
       ];
 }
+
+final class GameFinished extends GameState {
+  final User winner;
+
+  const GameFinished({required this.winner});
+
+  @override
+  List<Object> get props => [winner];
+}

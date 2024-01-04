@@ -13,9 +13,11 @@ import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/resources_widget.dart';
 import 'package:catan_gui_flutter/gen/assets.gen.dart';
+import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/router.dart';
 import 'package:catan_gui_flutter/widgets/cat_elevated_button.dart';
 import 'package:catan_gui_flutter/widgets/cat_scaffold.dart';
+import 'package:catan_gui_flutter/widgets/cat_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -52,6 +54,62 @@ class _GamePageState extends State<GamePage> {
         curve: Curves.easeInOut);
   }
 
+  Future<void> showWinnerDialog({required User winner}) async {
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => LayoutBuilder(builder: (context, constraints) {
+              final maxSize = constraints.maxWidth > constraints.maxHeight
+                  ? constraints.maxHeight
+                  : constraints.maxWidth;
+
+              return Dialog(
+                backgroundColor: Colors.orange.shade100,
+                child: Container(
+                  padding: const EdgeInsets.all(64),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.emoji_events_rounded,
+                        size: maxSize * 0.1,
+                        color: Colors.orange.shade500,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Game Finished',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        '${winner.firstName} ${winner.lastName} won the game',
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      CATTextButton(
+                        backgroundColor: Colors.orange.shade100,
+                        foregroundColor: Colors.orange.shade500,
+                        onPressed: () {
+                          context.pop();
+                          context.go(homeRoute);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text('Go to Home'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -78,6 +136,8 @@ class _GamePageState extends State<GamePage> {
                   _isRolling = false;
                 });
               }
+            } else if (state is GameFinished) {
+              showWinnerDialog(winner: state.winner);
             }
           },
           child: CATScaffold(

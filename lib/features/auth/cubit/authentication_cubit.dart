@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:catan_gui_flutter/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'authentication_state.dart';
 
@@ -16,9 +16,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void autoLogin() async {
-    const storage = FlutterSecureStorage();
-    final email = await storage.read(key: 'email');
-    final password = await storage.read(key: 'password');
+    final prefs = await SharedPreferences.getInstance();
+
+    final email = prefs.getString('email');
+    final password = prefs.getString('password');
 
     if (email == null || password == null) {
       return;
@@ -39,10 +40,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       final user =
           await _userRepository.login(email: email, password: password);
 
-      const storage = FlutterSecureStorage();
+      // TODO : Might be better to use FlutterSecureStorage
+      final prefs = await SharedPreferences.getInstance();
 
-      await storage.write(key: 'email', value: email);
-      await storage.write(key: 'password', value: password);
+      await prefs.setString('email', email);
+      await prefs.setString('password', password);
 
       emit(LoggedIn(user: user));
     } catch (e) {
@@ -66,9 +68,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         password: password,
       );
 
-      const storage = FlutterSecureStorage();
-      await storage.write(key: 'email', value: email);
-      await storage.write(key: 'password', value: password);
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('email', email);
+      await prefs.setString('password', password);
 
       emit(LoggedIn(user: user));
     } catch (e) {
@@ -77,8 +80,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void logout() async {
-    const storage = FlutterSecureStorage();
-    storage.deleteAll();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    prefs.remove('password');
     emit(NotLoggedIn());
   }
 }

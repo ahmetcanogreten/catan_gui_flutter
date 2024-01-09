@@ -8,6 +8,7 @@ import 'package:catan_gui_flutter/features/choose_settlement_and_road/presentati
 import 'package:catan_gui_flutter/features/game/models/resource.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/dice.dart';
 import 'package:catan_gui_flutter/features/game/presentation/widgets/in_game_player_entry.dart';
+import 'package:catan_gui_flutter/features/trade/presentation/widgets/trade_widget.dart';
 import 'package:catan_gui_flutter/features/game/util/get_user_color.dart';
 import 'package:catan_gui_flutter/features/lobby/models/building_with_color.dart';
 import 'package:catan_gui_flutter/features/lobby/presentation/widgets/catan_board.dart';
@@ -335,6 +336,7 @@ class _GamePageState extends State<GamePage> {
                                 child: Column(
                               children: [
                                 Expanded(
+                                  flex: 2,
                                   child: _isMyTurn
                                       ? Builder(builder: (context) {
                                           switch (turnState) {
@@ -497,6 +499,9 @@ class _GamePageState extends State<GamePage> {
                                                           ),
                                                         ],
                                                       )),
+                                                  SizedBox(
+                                                      height: maxSize * 0.02),
+                                                  const TradeWidget(),
                                                   SizedBox(
                                                       height: maxSize * 0.02),
                                                   CATElevatedButton(
@@ -663,6 +668,7 @@ class _GamePageState extends State<GamePage> {
                                                       )),
                                                   SizedBox(
                                                       height: maxSize * 0.02),
+                                                  const TradeWidget(),
                                                 ],
                                               );
                                           }

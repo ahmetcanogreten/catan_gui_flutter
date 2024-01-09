@@ -63,10 +63,13 @@ class InGamePlayerEntry extends StatelessWidget {
                             child: Column(
                               children: [
                                 Expanded(child: Assets.images.hills.image()),
-                                Text(userState.numberOfBricks.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: maxSize * 0.075)),
+                                FittedBox(
+                                  child: Text(
+                                      userState.numberOfBricks.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: maxSize * 0.075)),
+                                ),
                               ],
                             ),
                           ),
@@ -75,10 +78,13 @@ class InGamePlayerEntry extends StatelessWidget {
                             child: Column(
                               children: [
                                 Expanded(child: Assets.images.forest.image()),
-                                Text(userState.numberOfLumber.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: maxSize * 0.075)),
+                                FittedBox(
+                                  child: Text(
+                                      userState.numberOfLumber.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: maxSize * 0.075)),
+                                ),
                               ],
                             ),
                           ),
@@ -88,10 +94,12 @@ class InGamePlayerEntry extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: Assets.images.mountains.image()),
-                                Text(userState.numberOfOre.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: maxSize * 0.075)),
+                                FittedBox(
+                                  child: Text(userState.numberOfOre.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: maxSize * 0.075)),
+                                ),
                               ],
                             ),
                           ),
@@ -100,10 +108,13 @@ class InGamePlayerEntry extends StatelessWidget {
                             child: Column(
                               children: [
                                 Expanded(child: Assets.images.fields.image()),
-                                Text(userState.numberOfGrain.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: maxSize * 0.075)),
+                                FittedBox(
+                                  child: Text(
+                                      userState.numberOfGrain.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: maxSize * 0.075)),
+                                ),
                               ],
                             ),
                           ),
@@ -112,10 +123,12 @@ class InGamePlayerEntry extends StatelessWidget {
                             child: Column(
                               children: [
                                 Expanded(child: Assets.images.pasture.image()),
-                                Text(userState.numberOfWool.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: maxSize * 0.075)),
+                                FittedBox(
+                                  child: Text(userState.numberOfWool.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: maxSize * 0.075)),
+                                ),
                               ],
                             ),
                           ),

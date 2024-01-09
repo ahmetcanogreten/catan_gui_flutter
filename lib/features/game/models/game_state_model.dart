@@ -1,4 +1,5 @@
 import 'package:catan_gui_flutter/features/game/models/game.dart';
+import 'package:catan_gui_flutter/features/trade/models/trade.dart';
 import 'package:catan_gui_flutter/models/user.dart';
 import 'package:equatable/equatable.dart';
 
@@ -26,6 +27,7 @@ class GameStateModel extends Equatable {
   final Game game;
   final int? dice1;
   final int? dice2;
+  final Trade? trade;
 
   const GameStateModel({
     required this.id,
@@ -34,6 +36,7 @@ class GameStateModel extends Equatable {
     required this.game,
     this.dice1,
     this.dice2,
+    this.trade,
   });
 
   @override
@@ -44,6 +47,7 @@ class GameStateModel extends Equatable {
         game,
         dice1 ?? 0,
         dice2 ?? 0,
+        trade ?? 0,
       ];
 
   static GameStateModel fromJson(Map<String, dynamic> json) {
@@ -54,6 +58,9 @@ class GameStateModel extends Equatable {
       game: Game.fromJson(json['game'] as Map<String, dynamic>),
       dice1: json['dice1'] as int?,
       dice2: json['dice2'] as int?,
+      trade: json['trade'] == null
+          ? null
+          : Trade.fromJson(json['trade'] as Map<String, dynamic>),
     );
   }
 }

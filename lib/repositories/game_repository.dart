@@ -65,9 +65,76 @@ abstract interface class IGameRepository {
 
   Future<List<UserWithInGamePoints>> getUsersWithInGamePoints(
       {required int gameId});
+
+  Future<void> createTradeOffer({
+    required int gameId,
+    required int wantHills,
+    required int wantForest,
+    required int wantMountains,
+    required int wantFields,
+    required int wantPasture,
+    required int giveHills,
+    required int giveForest,
+    required int giveMountains,
+    required int giveFields,
+    required int givePasture,
+  });
+
+  Future<void> acceptTradeOffer({
+    required int gameId,
+    required String userId,
+  });
+
+  Future<void> cancelTradeOffer({
+    required int gameId,
+  });
 }
 
 class BackendGameRepository implements IGameRepository {
+  @override
+  Future<void> createTradeOffer({
+    required int gameId,
+    required int wantHills,
+    required int wantForest,
+    required int wantMountains,
+    required int wantFields,
+    required int wantPasture,
+    required int giveHills,
+    required int giveForest,
+    required int giveMountains,
+    required int giveFields,
+    required int givePasture,
+  }) async {
+    await apiClient.post("/api/games/$gameId/trades", data: {
+      "wantHills": wantHills,
+      "wantForest": wantForest,
+      "wantMountains": wantMountains,
+      "wantFields": wantFields,
+      "wantPasture": wantPasture,
+      "giveHills": giveHills,
+      "giveForest": giveForest,
+      "giveMountains": giveMountains,
+      "giveFields": giveFields,
+      "givePasture": givePasture,
+    });
+  }
+
+  @override
+  Future<void> acceptTradeOffer({
+    required int gameId,
+    required String userId,
+  }) async {
+    await apiClient.post("/api/games/$gameId/accept-trade",
+        queryParameters: {"userId": userId});
+  }
+
+  @override
+  Future<void> cancelTradeOffer({
+    required int gameId,
+  }) async {
+    await apiClient.post("/api/games/$gameId/cancel-trade");
+  }
+
   @override
   Future<Game> getGameByRoomId({required int roomId}) async {
     final response = await apiClient.get("/api/games/room/$roomId");
